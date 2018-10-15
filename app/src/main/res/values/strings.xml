@@ -10,4 +10,7 @@
     <string name="nav_workouts_title">Workouts</string>
     <string name="nav_categories_title">Categories</string>
     <string name="nav_calendar_title">Calendar</string>
+
+    <string name="default_report_error_message">Oops, something went wrong if you see this please report it to: </string>
+    <string name="dev_email">silas.timothy10@gmail.com</string>
 </resources>

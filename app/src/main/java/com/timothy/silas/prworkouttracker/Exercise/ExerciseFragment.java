@@ -23,12 +23,13 @@ public class ExerciseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.exercise_page_fragment, container, false);
 
-        TextView nameView = view.findViewById(R.id.excercise_name_textview);
+        TextView nameView = view.findViewById(R.id.exercise_name_textview);
         if(exercise != null) {
             nameView.setText(exercise.getName());
         } else {
             Log.w("ExerciseFragment", "Exercise is null in onCreateView");
-            nameView.setText("placeholder");
+            String error_text = getResources().getString(R.string.default_report_error_message) + getResources().getString(R.string.dev_email) + ". Error is Exercise is null in onCreateView";
+            nameView.setText(error_text);
         }
 
         return view;
