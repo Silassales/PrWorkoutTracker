@@ -37,12 +37,14 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         Exercise exercise = exerciseList.get(position);
         holder.name.setText(exercise.getName());
         holder.weight.setText(exercise.getWeightFormatted());
+        holder.wtUnit.setText(exercise.getWtUnit().toString());
     }
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView name;
         public TextView weight;
+        public TextView wtUnit;
         public Button addButton;
         private WeakReference<ClickListener> listenerRef;
 
@@ -50,13 +52,15 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
             super(view);
 
             listenerRef = new WeakReference<>(listener);
-            name = view.findViewById(R.id.excercise_name_textview);
-            weight = view.findViewById(R.id.excercise_weight_textview);
-            addButton = view.findViewById(R.id.excercise_add_weight_button);
+            name = view.findViewById(R.id.exercise_name_textview);
+            weight = view.findViewById(R.id.exercise_weight_textview);
+            wtUnit = view.findViewById(R.id.exercise_wt_unit_textview);
+            addButton = view.findViewById(R.id.exercise_add_weight_button);
 
             view.setOnClickListener(this);
             name.setOnClickListener(this);
             weight.setOnClickListener(this);
+            wtUnit.setOnClickListener(this);
             addButton.setOnClickListener(this);
         }
 

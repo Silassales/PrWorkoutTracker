@@ -13,28 +13,39 @@
     android:paddingTop="@dimen/row_padding_vertical">
 
     <TextView
-        android:id="@+id/excercise_name_textview"
+        android:id="@+id/exercise_name_textview"
         android:layout_width="@dimen/excersice_list_name_width"
         android:layout_height="@dimen/excersice_list_height"
         android:layout_alignParentTop="true"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:padding="@dimen/excersice_list_item_padding"/>
 
     <TextView
-        android:id="@+id/excercise_weight_textview"
+        android:id="@+id/exercise_weight_textview"
         android:layout_width="@dimen/excersice_list_weight_width"
         android:layout_height="@dimen/excersice_list_height"
         android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/excercise_name_textview"
-        android:layout_toRightOf="@+id/excercise_name_textview" />
+        android:layout_toEndOf="@+id/exercise_name_textview"
+        android:layout_toRightOf="@+id/exercise_name_textview"
+        android:padding="@dimen/excersice_list_item_padding"/>
+
+    <TextView
+        android:id="@+id/exercise_wt_unit_textview"
+        android:layout_width="@dimen/excersice_list_wt_unit_width"
+        android:layout_height="@dimen/excersice_list_height"
+        android:layout_toEndOf="@+id/exercise_weight_textview"
+        android:layout_toRightOf="@+id/exercise_weight_textview"
+        android:padding="@dimen/excersice_list_item_padding"/>
 
     <Button
-        android:id="@+id/excercise_add_weight_button"
+        android:id="@+id/exercise_add_weight_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:text="Button"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:padding="@dimen/excersice_list_item_padding"/>
 
 </RelativeLayout>

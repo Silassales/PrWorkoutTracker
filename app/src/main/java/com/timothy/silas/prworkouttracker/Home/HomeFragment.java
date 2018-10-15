@@ -73,10 +73,13 @@ public class HomeFragment extends Fragment {
     }
 
     private void getData() {
+        // clear the list to make sure we are getting fresh data
+        exerciseList.clear();
+
         exerciseList.add(new Exercise(UUID.randomUUID(), "testtesttesttesttesttesttesttesttest", 123.321, WtUnit.KG));
-        exerciseList.add(new Exercise(UUID.randomUUID(), "test", 123.321, WtUnit.KG));
-        exerciseList.add(new Exercise(UUID.randomUUID(), "test", 123.321, WtUnit.KG));
-        exerciseList.add(new Exercise(UUID.randomUUID(), "test", 123.321, WtUnit.KG));
+        exerciseList.add(new Exercise(UUID.randomUUID(), "test", 1000.321, WtUnit.KG));
+        exerciseList.add(new Exercise(UUID.randomUUID(), "test", 123.321, WtUnit.LB));
+        exerciseList.add(new Exercise(UUID.randomUUID(), "test", 123.321, WtUnit.LB));
         exerciseList.add(new Exercise(UUID.randomUUID(), "test", 123.321, WtUnit.KG));
         exerciseList.add(new Exercise(UUID.randomUUID(), "test", 123.321, WtUnit.KG));
         exerciseList.add(new Exercise(UUID.randomUUID(), "test", 123.321, WtUnit.KG));
