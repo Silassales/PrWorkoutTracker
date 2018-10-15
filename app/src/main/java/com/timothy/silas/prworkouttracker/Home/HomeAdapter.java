@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.timothy.silas.prworkouttracker.ClickListener;
-import com.timothy.silas.prworkouttracker.Models.Excercise;
+import com.timothy.silas.prworkouttracker.Models.Exercise;
 import com.timothy.silas.prworkouttracker.R;
 
 import java.lang.ref.WeakReference;
@@ -17,26 +17,26 @@ import java.util.List;
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
 
     private final ClickListener listener;
-    private List<Excercise> excerciseList;
+    private List<Exercise> exerciseList;
 
-    public HomeAdapter(List<Excercise> excerciseList, ClickListener listener) {
-        this.excerciseList = excerciseList;
+    public HomeAdapter(List<Exercise> exerciseList, ClickListener listener) {
+        this.exerciseList = exerciseList;
         this.listener = listener;
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.excersice_list_row, parent, false);
+                .inflate(R.layout.exersice_list_row, parent, false);
 
         return new MyViewHolder(itemView, listener);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Excercise excercise = excerciseList.get(position);
-        holder.name.setText(excercise.getName());
-        holder.weight.setText(excercise.getWeightFormatted());
+        Exercise exercise = exerciseList.get(position);
+        holder.name.setText(exercise.getName());
+        holder.weight.setText(exercise.getWeightFormatted());
     }
 
 
@@ -74,6 +74,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
 
     @Override
     public int getItemCount() {
-        return excerciseList.size();
+        return exerciseList.size();
     }
 }

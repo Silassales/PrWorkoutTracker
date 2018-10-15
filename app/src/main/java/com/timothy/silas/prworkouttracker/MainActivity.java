@@ -23,9 +23,6 @@ import com.timothy.silas.prworkouttracker.Workout.WorkoutFragment;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    // used to determine if hitting back button should quit app or not
-    private boolean onHomePage = true;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,19 +40,6 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         displayView(R.id.nav_home);
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else if (!onHomePage){
-            // default that going back on any other fragment should return to the home page
-            displayView(R.id.nav_home);
-        } else {
-            super.onBackPressed();
-        }
     }
 
     @Override
@@ -94,26 +78,21 @@ public class MainActivity extends AppCompatActivity
         switch (viewId) {
             case R.id.nav_home:
                 fragment = new HomeFragment();
-                onHomePage = true;
                 break;
             case R.id.nav_workouts:
                 fragment = new WorkoutFragment();
-                onHomePage = false;
                 break;
             case R.id.nav_categories:
                 fragment = new CategoryFragment();
-                onHomePage = false;
                 break;
             case R.id.nav_calendar:
                 fragment = new CalendarFragment();
-                onHomePage = false;
                 break;
         }
 
         if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.content_frame, fragment);
-            ft.commit();
+            ft.replace(R.id.content_frame, fragment).addToBackStack( "tag" ).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

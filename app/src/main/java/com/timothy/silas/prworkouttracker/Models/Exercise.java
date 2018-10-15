@@ -3,14 +3,14 @@ package com.timothy.silas.prworkouttracker.Models;
 import java.text.DecimalFormat;
 import java.util.UUID;
 
-public class Excercise {
+public class Exercise {
 
     private UUID id;
     private String name;
     private double weight;
     private WtUnit wtUnit;
 
-    public Excercise(UUID id, String name, double weight, WtUnit wtUnit) {
+    public Exercise(UUID id, String name, double weight, WtUnit wtUnit) {
         this.id = id;
         this.name = name;
         this.weight = weight;
