@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.RelativeLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,11 +13,28 @@
     android:paddingTop="@dimen/row_padding_vertical">
 
     <TextView
-        android:id="@+id/excercise_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:id="@+id/excercise_name_textview"
+        android:layout_width="@dimen/excersice_list_name_width"
+        android:layout_height="@dimen/excersice_list_height"
         android:layout_alignParentTop="true"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
-</android.support.constraint.RelativeLayout>
+    <TextView
+        android:id="@+id/excercise_weight_textview"
+        android:layout_width="@dimen/excersice_list_weight_width"
+        android:layout_height="@dimen/excersice_list_height"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/excercise_name_textview"
+        android:layout_toRightOf="@+id/excercise_name_textview" />
+
+    <Button
+        android:id="@+id/excercise_add_weight_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:text="Button"
+        android:layout_alignParentRight="true" />
+
+</RelativeLayout>
