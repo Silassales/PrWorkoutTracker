@@ -21,21 +21,23 @@
         android:textStyle="bold"
         android:padding="@dimen/excersice_list_item_padding"/>
 
-    <TextView
-        android:id="@+id/exercise_weight_textview"
+    <EditText
+        android:id="@+id/exercise_weight_edittext"
         android:layout_width="@dimen/excersice_list_weight_width"
         android:layout_height="@dimen/excersice_list_height"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/exercise_name_textview"
         android:layout_toRightOf="@+id/exercise_name_textview"
-        android:padding="@dimen/excersice_list_item_padding"/>
+        android:padding="@dimen/excersice_list_item_padding"
+        android:inputType="numberDecimal"
+        android:imeOptions="actionDone"/>
 
     <TextView
         android:id="@+id/exercise_wt_unit_textview"
         android:layout_width="@dimen/excersice_list_wt_unit_width"
         android:layout_height="@dimen/excersice_list_height"
-        android:layout_toEndOf="@+id/exercise_weight_textview"
-        android:layout_toRightOf="@+id/exercise_weight_textview"
+        android:layout_toEndOf="@+id/exercise_weight_edittext"
+        android:layout_toRightOf="@+id/exercise_weight_edittext"
         android:padding="@dimen/excersice_list_item_padding"/>
 
     <Button
