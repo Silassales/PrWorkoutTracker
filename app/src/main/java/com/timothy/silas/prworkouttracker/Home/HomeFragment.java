@@ -3,8 +3,6 @@ package com.timothy.silas.prworkouttracker.Home;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.timothy.silas.prworkouttracker.ClickListener;
 import com.timothy.silas.prworkouttracker.Exercise.ExerciseFragment;
@@ -34,7 +33,7 @@ public class HomeFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.home_fragment, container, false);
+        final View view = inflater.inflate(R.layout.home_fragment, container, false);
 
         mRecyclerView = view.findViewById(R.id.home_excercise_list);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
@@ -51,7 +50,27 @@ public class HomeFragment extends Fragment {
             public void onPositionAddButtonClicked(int position) {
                 Log.i("HomeFragment", "Clicked on add button on row: " + position);
                 ExerciseUtils.addWeight(exerciseList.get(position));
-                mAdapter.notifyDataSetChanged();
+                saveData(position);
+            }
+
+            @Override
+            public void updatedWeightText(int position, String newWeight) {
+                // we will try to check if this is a new value and try to minimize unneeded updates
+                boolean needToUpdate = true;
+                // update the list with the new value in the edit text
+                try {
+                    double tempVal = Double.valueOf(newWeight);
+                    if(Double.compare(tempVal, exerciseList.get(position).getWeight()) == 0) {
+                        needToUpdate = false;
+                    } else {
+                        exerciseList.get(position).setWeight(tempVal);
+                    }
+                } catch (NumberFormatException e) {
+                    Log.w("HomeFragment", "non double value found when updating weight text");
+                    // if we return here the value will just be set to whatever it was before this update was done
+                    return;
+                }
+                if(needToUpdate) saveData(position);
             }
         });
         mRecyclerView.setAdapter(mAdapter);
@@ -92,4 +111,8 @@ public class HomeFragment extends Fragment {
         mAdapter.notifyDataSetChanged();
     }
 
+    private void saveData(int position) {
+        // TODO: save to db
+        mAdapter.notifyDataSetChanged();
+    }
 }
