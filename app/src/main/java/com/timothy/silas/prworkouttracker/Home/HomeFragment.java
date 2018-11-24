@@ -83,7 +83,7 @@ public class HomeFragment extends Fragment {
 
     private void displayExcercise(int position) {
         ExerciseFragment exerciseFragment = new ExerciseFragment();
-        exerciseFragment.setExcercise(exerciseList.get(position));
+        exerciseFragment.setExerciseUUID(exerciseList.get(position).getId());
 
         if(exerciseFragment != null) {
             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
