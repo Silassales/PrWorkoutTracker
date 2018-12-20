@@ -10,4 +10,11 @@
     <string name="nav_workouts_title">Workouts</string>
     <string name="nav_categories_title">Categories</string>
     <string name="nav_calendar_title">Calendar</string>
+
+    <string name="default_report_error_message">Oops, something went wrong if you see this please report it to: </string>
+    <string name="dev_email">silas.timothy10@gmail.com</string>
+    <string name="exercise_page_title_placeholder">Exercise Title</string>
+    <string name="exercise_page_content_placeholder">Exercise Data</string>
+    <string name="exercise_page_share_button_placeholder">Share</string>
+    <string name="exercise_page_explore_button_placeholder">Explore</string>
 </resources>

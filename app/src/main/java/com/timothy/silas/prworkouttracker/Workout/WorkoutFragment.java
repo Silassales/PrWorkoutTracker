@@ -1,10 +1,12 @@
-package com.timothy.silas.prworkouttracker;
+package com.timothy.silas.prworkouttracker.Workout;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.timothy.silas.prworkouttracker.R;
 
 public class WorkoutFragment extends Fragment {
 
