@@ -1,17 +1,10 @@
 package com.timothy.silas.prworkouttracker.Home;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.timothy.silas.prworkouttracker.ClickListener;
 import com.timothy.silas.prworkouttracker.Exercise.ExerciseFragment;
@@ -23,6 +16,13 @@ import com.timothy.silas.prworkouttracker.Utils.ExerciseUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class HomeFragment extends Fragment {
 

@@ -1,18 +1,18 @@
 package com.timothy.silas.prworkouttracker.Exercise;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.timothy.silas.prworkouttracker.Models.Exercise;
 import com.timothy.silas.prworkouttracker.R;
 import com.timothy.silas.prworkouttracker.Utils.DataBaseUtils.ExerciseDBUtils;
 
 import java.util.UUID;
+
+import androidx.fragment.app.Fragment;
 
 public class ExerciseFragment extends Fragment {
 

@@ -1,8 +1,6 @@
 package com.timothy.silas.prworkouttracker.Home;
 
 import android.app.Activity;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +10,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.timothy.silas.prworkouttracker.ClickListener;
 import com.timothy.silas.prworkouttracker.Models.Exercise;
@@ -20,6 +17,8 @@ import com.timothy.silas.prworkouttracker.R;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
 
