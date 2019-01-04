@@ -90,6 +90,15 @@ public class AppDatabaseTest {
         assertThat(retrievedExercise, equalTo(basicExercise));
     }
 
+    @Test
+    public void getById_withMissingData_returnsNull() {
+        UUID newUUID = UUID.randomUUID();
+
+        Exercise exercise = exerciseDao.getById(newUUID);
+
+        assertThat(exercise, nullValue());
+    }
+
     /*
      ----------- DELETE TESTS ------------
      */
@@ -101,6 +110,21 @@ public class AppDatabaseTest {
         exerciseDao.delete(basicExercise);
 
         assertThat(exerciseDao.getById(uuid), nullValue());
+    }
+
+    @Test
+    public void delete_withDataInDatabase_onlyDeletesExerciseWeWantItTo() {
+        UUID newUUID = UUID.randomUUID();
+        Exercise exercise = ExerciseUtils.createExercise(newUUID);
+
+        exerciseDao.insert(exercise);
+        exerciseDao.insert(basicExercise);
+
+        exerciseDao.delete(exercise);
+
+        assertThat(exerciseDao.getById(newUUID), nullValue());
+        assertThat(exerciseDao.getById(uuid), equalTo(basicExercise));
+
     }
 
 }
