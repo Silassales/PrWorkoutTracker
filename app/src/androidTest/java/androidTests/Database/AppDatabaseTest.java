@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 import androidx.room.Room;
@@ -125,6 +126,39 @@ public class AppDatabaseTest {
         assertThat(exerciseDao.getById(newUUID), nullValue());
         assertThat(exerciseDao.getById(uuid), equalTo(basicExercise));
 
+    }
+
+    /*
+     ----------- GET ALL TESTS ------------
+     */
+
+    @Test
+    public void getAll_with3DataPoints_returns3DataPoints() {
+        exerciseDao.insert(basicExercise);
+        exerciseDao.insert(ExerciseUtils.createExercise(UUID.randomUUID()));
+        exerciseDao.insert(ExerciseUtils.createExercise(UUID.randomUUID()));
+
+        assertThat(exerciseDao.getAll().size(), equalTo(3));
+    }
+
+    @Test
+    public void getAll_with0DataPoints_returnsNoData() {
+        assertThat(exerciseDao.getAll().size(), equalTo(0));
+    }
+
+    @Test
+    public void getAll_withData_returnsCorrectData() {
+        exerciseDao.insert(basicExercise);
+        UUID id2 = UUID.randomUUID();
+        exerciseDao.insert(ExerciseUtils.createExercise(id2));
+        UUID id3 = UUID.randomUUID();
+        exerciseDao.insert(ExerciseUtils.createExercise(id3));
+
+        List<Exercise> retrievedList = exerciseDao.getAll();
+
+        assertThat(retrievedList.get(0), equalTo(basicExercise));
+        assertThat(retrievedList.get(1).id, equalTo(id2));
+        assertThat(retrievedList.get(2).id, equalTo(id3));
     }
 
 }
