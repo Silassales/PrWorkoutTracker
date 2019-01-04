@@ -30,11 +30,17 @@ public class AppDatabaseTest {
     private ExerciseDao exerciseDao;
     private AppDatabase appDatabase;
 
+    private UUID uuid;
+    private Exercise basicExercise;
+
     @Before
     public void createDb() {
         Context context = ApplicationProvider.getApplicationContext();
         appDatabase = Room.inMemoryDatabaseBuilder(context, AppDatabase.class).build();
         exerciseDao = appDatabase.exerciseDao();
+
+        uuid = UUID.randomUUID();
+        basicExercise = ExerciseUtils.createExercise(uuid);
     }
 
     @After
@@ -51,13 +57,10 @@ public class AppDatabaseTest {
      */
     @Test
     public void insert_withGoodData_insertsCorrectly() throws Exception {
-        UUID id = UUID.randomUUID();
-        Exercise exercise = ExerciseUtils.createExercise(id);
-        exercise.name = "testName";
-        exerciseDao.insert(exercise);
+        exerciseDao.insert(basicExercise);
 
-        Exercise testExercise = exerciseDao.getById(id);
-        assertThat(testExercise, equalTo(exercise));
+        Exercise testExercise = exerciseDao.getById(uuid);
+        assertThat(testExercise, equalTo(basicExercise));
     }
 
     @Test(expected = NullPointerException.class)
@@ -69,17 +72,19 @@ public class AppDatabaseTest {
 
     @Test(expected = SQLiteConstraintException.class)
     public void insert_withNullIdData_throwsSQLException() {
-        Exercise exercise = ExerciseUtils.createExercise(UUID.randomUUID());
-        exercise.id = null;
+        basicExercise.id = null;
 
-        exerciseDao.insert(exercise);
+        exerciseDao.insert(basicExercise);
     }
 
     /*
      ----------- GET BY ID TESTS ------------
      */
 
+    @Test
+    public void getById_withExistingData_getsData() {
 
+    }
 
     /*
      ----------- DELETE TESTS ------------
@@ -87,11 +92,9 @@ public class AppDatabaseTest {
 
     @Test
     public void delete_withDataInDatabase_deletesData() {
-        UUID uuid = UUID.randomUUID();
-        Exercise exercise = ExerciseUtils.createExercise(uuid);
-        exerciseDao.insert(exercise);
+        exerciseDao.insert(basicExercise);
 
-        exerciseDao.delete(exercise);
+        exerciseDao.delete(basicExercise);
 
         assertThat(exerciseDao.getById(uuid), nullValue());
     }
