@@ -161,4 +161,29 @@ public class AppDatabaseTest {
         assertThat(retrievedList.get(2).id, equalTo(id3));
     }
 
+    /*
+     ----------- GET BY NAME TESTS ------------
+     */
+
+    @Test
+    public void getByName_withExistingData_getsData() {
+        String name = "swole city";
+        basicExercise.name = name;
+        exerciseDao.insert(basicExercise);
+
+        Exercise retrievedExercise = exerciseDao.getByName(name);
+
+        assertThat(retrievedExercise, equalTo(basicExercise));
+    }
+
+    @Test
+    public void getByName_withoutExistingData_returnsNull() {
+        String name = "swole city";
+        basicExercise.name = name;
+        exerciseDao.insert(basicExercise);
+
+        Exercise retrievedExercise = exerciseDao.getByName("not swole city");
+
+        assertThat(retrievedExercise, nullValue());
+    }
 }
