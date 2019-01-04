@@ -83,7 +83,11 @@ public class AppDatabaseTest {
 
     @Test
     public void getById_withExistingData_getsData() {
+        exerciseDao.insert(basicExercise);
 
+        Exercise retrievedExercise = exerciseDao.getById(uuid);
+
+        assertThat(retrievedExercise, equalTo(basicExercise));
     }
 
     /*
