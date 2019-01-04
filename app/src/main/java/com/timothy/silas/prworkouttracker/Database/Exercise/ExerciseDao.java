@@ -20,8 +20,8 @@ public interface ExerciseDao {
     @TypeConverters(UUIDConverter.class)
     Exercise getById(UUID id);
 
-    @Query("SELECT * FROM exercise where name in (:names)")
-    List<Exercise> getAllByName(List<String> names);
+    @Query("SELECT * FROM exercise where (:name) = name")
+    Exercise getByName(String name);
 
     @Insert
     void insert(Exercise exercise);
