@@ -11,7 +11,7 @@ import com.timothy.silas.prworkouttracker.Exercise.ExerciseFragment;
 import com.timothy.silas.prworkouttracker.Models.Exercise;
 import com.timothy.silas.prworkouttracker.Models.WtUnit;
 import com.timothy.silas.prworkouttracker.R;
-import com.timothy.silas.prworkouttracker.Utils.ExerciseUtils;
+import com.timothy.silas.prworkouttracker.Exercise.ExerciseUtils;
 
 import java.util.ArrayList;
 import java.util.List;

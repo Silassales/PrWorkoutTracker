@@ -1,4 +1,4 @@
-package com.timothy.silas.prworkouttracker.Utils;
+package com.timothy.silas.prworkouttracker.Exercise;
 
 import android.util.Log;
 
