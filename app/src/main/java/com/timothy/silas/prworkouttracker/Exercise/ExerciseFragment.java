@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.timothy.silas.prworkouttracker.Models.Exercise;
+import com.timothy.silas.prworkouttracker.Database.Exercise.Exercise;
 import com.timothy.silas.prworkouttracker.R;
 
 import java.util.UUID;

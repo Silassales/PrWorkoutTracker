@@ -8,11 +8,7 @@ import java.util.UUID;
 public class ExerciseUtils {
 
     public static Exercise createExercise(UUID id) {
-        Exercise exercise = new Exercise();
-        exercise.id = id;
-        exercise.name = "";
-        exercise.weight = 0.0;
-        exercise.weightUnit = WtUnit.LB;
+        Exercise exercise = new Exercise(id, "", 0.0, WtUnit.LB);
         return exercise;
     }
 }

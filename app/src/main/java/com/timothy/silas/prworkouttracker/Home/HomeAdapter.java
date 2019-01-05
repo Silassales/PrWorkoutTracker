@@ -1,6 +1,7 @@
 package com.timothy.silas.prworkouttracker.Home;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.timothy.silas.prworkouttracker.ClickListener;
-import com.timothy.silas.prworkouttracker.Models.Exercise;
+import com.timothy.silas.prworkouttracker.Database.Exercise.Exercise;
 import com.timothy.silas.prworkouttracker.R;
 
 import java.lang.ref.WeakReference;
@@ -42,8 +43,14 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Exercise exercise = exerciseList.get(position);
         holder.name.setText(exercise.getName());
-        holder.weight.setText(exercise.getWeightFormatted());
-        holder.wtUnit.setText(exercise.getWtUnit().toString());
+        holder.weight.setText(exercise.getWeight().toString());
+        holder.wtUnit.setText(exercise.getWeightUnit().toString());
+    }
+
+    public void addItems(List<Exercise> exercises) {
+        Log.i("Home Adapter", "Added " + (exercises.size() - this.exerciseList.size()) + " new exercises from the db");
+        this.exerciseList = exercises;
+        notifyDataSetChanged();
     }
 
 

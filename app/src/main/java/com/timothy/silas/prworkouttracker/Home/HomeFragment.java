@@ -7,8 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.timothy.silas.prworkouttracker.ClickListener;
+import com.timothy.silas.prworkouttracker.Database.AppDatabase;
+import com.timothy.silas.prworkouttracker.Database.Exercise.Exercise;
+import com.timothy.silas.prworkouttracker.Database.Exercise.ExerciseDao;
 import com.timothy.silas.prworkouttracker.Exercise.ExerciseFragment;
-import com.timothy.silas.prworkouttracker.Models.Exercise;
 import com.timothy.silas.prworkouttracker.Models.WtUnit;
 import com.timothy.silas.prworkouttracker.R;
 import com.timothy.silas.prworkouttracker.Exercise.ExerciseUtils;
@@ -16,17 +18,25 @@ import com.timothy.silas.prworkouttracker.Exercise.ExerciseUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 public class HomeFragment extends Fragment {
 
-    private List<Exercise> exerciseList = new ArrayList<>();
+    private HomeViewModel homeViewModel;
+    private HomeAdapter homeAdapter;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -39,7 +49,7 @@ public class HomeFragment extends Fragment {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new HomeAdapter(exerciseList, new ClickListener() {
+        homeAdapter = new HomeAdapter(new ArrayList<Exercise>(), new ClickListener() {
             @Override
             public void onPositionRowClicked(int position) {
                 Log.i("HomeFragment", "Clicked on row: " + position);
@@ -49,66 +59,58 @@ public class HomeFragment extends Fragment {
             @Override
             public void onPositionAddButtonClicked(int position) {
                 Log.i("HomeFragment", "Clicked on add button on row: " + position);
-                ExerciseUtils.addWeight(exerciseList.get(position));
+                //TODO ExerciseUtils.addWeight(homeViewModel.getExerciseList().getValue().get(position));
                 saveData(position);
             }
 
             @Override
             public void updatedWeightText(int position, String newWeight) {
-                // we will try to check if this is a new value and try to minimize unneeded updates
-                boolean needToUpdate = true;
-                // update the list with the new value in the edit text
-                try {
-                    double tempVal = Double.valueOf(newWeight);
-                    if(Double.compare(tempVal, exerciseList.get(position).getWeight()) == 0) {
-                        needToUpdate = false;
-                    } else {
-                        exerciseList.get(position).setWeight(tempVal);
-                    }
-                } catch (NumberFormatException e) {
-                    Log.w("HomeFragment", "non double value found when updating weight text");
-                    // if we return here the value will just be set to whatever it was before this update was done
-                    return;
-                }
-                if(needToUpdate) saveData(position);
+                //TODO
+//                // we will try to check if this is a new value and try to minimize unneeded updates
+//                boolean needToUpdate = true;
+//                // update the list with the new value in the edit text
+//                try {
+//                    double tempVal = Double.valueOf(newWeight);
+//                    if(Double.compare(tempVal, homeViewModel.getExerciseList().getValue().get(position).getWeight()) == 0) {
+//                        needToUpdate = false;
+//                    } else {
+//                        homeViewModel.getExerciseList().getValue().get(position).setWeight(tempVal);
+//                    }
+//                } catch (NumberFormatException e) {
+//                    Log.w("HomeFragment", "non double value found when updating weight text");
+//                    // if we return here the value will just be set to whatever it was before this update was done
+//                    return;
+//                }
+//                if(needToUpdate) saveData(position);
             }
         });
+        mAdapter = homeAdapter;
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        getData();
+        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+
+        homeViewModel.getExerciseList().observe(HomeFragment.this, new Observer<List<Exercise>>() {
+            @Override
+            public void onChanged(@Nullable List<Exercise> exercises) {
+                homeAdapter.addItems(exercises);
+            }
+        });
+
+        homeViewModel.addItem(new Exercise(UUID.randomUUID(), "blah", 0.0, WtUnit.LB));
+        homeViewModel.addItem(new Exercise(UUID.randomUUID(), "blah2", 0.2, WtUnit.KG));
 
         return view;
     }
 
     private void displayExcercise(int position) {
         ExerciseFragment exerciseFragment = new ExerciseFragment();
-        exerciseFragment.setExerciseUUID(exerciseList.get(position).getId());
+        exerciseFragment.setExerciseUUID(homeViewModel.getExerciseList().getValue().get(position).getId());
 
         if(exerciseFragment != null) {
             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.content_frame, exerciseFragment).addToBackStack( "tag" ).commit();
         }
-    }
-
-    private void getData() {
-        // clear the list to make sure we are getting fresh data
-        exerciseList.clear();
-
-        exerciseList.add(new Exercise(UUID.randomUUID(), "testtesttesttesttesttesttesttesttest", 123.321, WtUnit.KG));
-        exerciseList.add(new Exercise(UUID.randomUUID(), "test", 1000.321, WtUnit.KG));
-        exerciseList.add(new Exercise(UUID.randomUUID(), "test", 123.321, WtUnit.LB));
-        exerciseList.add(new Exercise(UUID.randomUUID(), "test", 123.321, WtUnit.LB));
-        exerciseList.add(new Exercise(UUID.randomUUID(), "test", 123.321, WtUnit.KG));
-        exerciseList.add(new Exercise(UUID.randomUUID(), "test", 123.321, WtUnit.KG));
-        exerciseList.add(new Exercise(UUID.randomUUID(), "test", 123.321, WtUnit.KG));
-        exerciseList.add(new Exercise(UUID.randomUUID(), "test", 123.321, WtUnit.KG));
-        exerciseList.add(new Exercise(UUID.randomUUID(), "test", 123.321, WtUnit.KG));
-        exerciseList.add(new Exercise(UUID.randomUUID(), "test", 123.321, WtUnit.KG));
-        exerciseList.add(new Exercise(UUID.randomUUID(), "test", 123.321, WtUnit.KG));
-        exerciseList.add(new Exercise(UUID.randomUUID(), "test", 123.321, WtUnit.KG));
-
-        mAdapter.notifyDataSetChanged();
     }
 
     private void saveData(int position) {

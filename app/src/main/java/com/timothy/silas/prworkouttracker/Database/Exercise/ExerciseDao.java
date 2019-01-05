@@ -5,16 +5,19 @@ import com.timothy.silas.prworkouttracker.Database.Utils.UUIDConverter;
 import java.util.List;
 import java.util.UUID;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.TypeConverters;
 
+import static androidx.room.OnConflictStrategy.REPLACE;
+
 @Dao
 public interface ExerciseDao {
     @Query("SELECT * FROM exercise")
-    List<Exercise> getAll();
+    LiveData<List<Exercise>> getAll();
 
     @Query("SELECT * FROM exercise where id = :id")
     @TypeConverters(UUIDConverter.class)
@@ -23,7 +26,7 @@ public interface ExerciseDao {
     @Query("SELECT * FROM exercise where (:name) = name")
     Exercise getByName(String name);
 
-    @Insert
+    @Insert(onConflict = REPLACE)
     void insert(Exercise exercise);
 
     @Delete

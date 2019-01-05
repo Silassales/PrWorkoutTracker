@@ -2,14 +2,15 @@ package com.timothy.silas.prworkouttracker.Exercise;
 
 import android.util.Log;
 
-import com.timothy.silas.prworkouttracker.Models.Exercise;
+import com.timothy.silas.prworkouttracker.Database.Exercise.Exercise;
+
 
 public class ExerciseUtils {
 
     public static void addWeight(Exercise exercise) {
         double amountToAdd = 0;
 
-        switch (exercise.getWtUnit()){
+        switch (exercise.getWeightUnit()){
             case KG:
                 amountToAdd = 2.5;
                 break;
@@ -21,7 +22,7 @@ public class ExerciseUtils {
                 break;
         }
 
-        Log.i("ExcerciseUtil#AddWeight", String.format("Exercise %s is in units %s, adding %s %s's.", exercise.getName(), exercise.getWtUnit(), amountToAdd, exercise.getWtUnit()));
-        exercise.setWeight(exercise.getWeight() + amountToAdd);
+        Log.i("ExcerciseUtil#AddWeight", String.format("Exercise %s is in units %s, adding %s %s's.", exercise.getName(), exercise.getWeightUnit(), amountToAdd, exercise.getWeightUnit()));
+        //exercise.setWeight(exercise.getWeight() + amountToAdd);
     }
 }

@@ -18,17 +18,40 @@ public class Exercise {
     @PrimaryKey
     @TypeConverters(UUIDConverter.class)
     @NonNull
-    public UUID id;
+    private UUID id;
 
     @ColumnInfo(name = "name")
-    public String name;
+    private String name;
 
     @ColumnInfo(name = "weight")
-    public Double weight;
+    private Double weight;
 
     @ColumnInfo(name = "unit")
     @TypeConverters(WtUnitConverter.class)
-    public WtUnit weightUnit;
+    private WtUnit weightUnit;
+
+    public Exercise(UUID id, String name, Double weight, WtUnit weightUnit) {
+        this.id = id;
+        this.name = name;
+        this.weight = weight;
+        this.weightUnit = weightUnit;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Double getWeight() {
+        return weight;
+    }
+
+    public WtUnit getWeightUnit() {
+        return weightUnit;
+    }
 
     @Override
     public boolean equals(Object o) {
