@@ -1,37 +1,36 @@
 package com.timothy.silas.prworkouttracker.Home;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.timothy.silas.prworkouttracker.ClickListener;
-import com.timothy.silas.prworkouttracker.Database.AppDatabase;
 import com.timothy.silas.prworkouttracker.Database.Exercise.Exercise;
-import com.timothy.silas.prworkouttracker.Database.Exercise.ExerciseDao;
 import com.timothy.silas.prworkouttracker.Exercise.ExerciseFragment;
 import com.timothy.silas.prworkouttracker.Models.WtUnit;
 import com.timothy.silas.prworkouttracker.R;
-import com.timothy.silas.prworkouttracker.Exercise.ExerciseUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 public class HomeFragment extends Fragment {
 
@@ -97,11 +96,17 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        homeViewModel.addItem(new Exercise(UUID.randomUUID(), "blah", 0.0, WtUnit.LB));
-        homeViewModel.addItem(new Exercise(UUID.randomUUID(), "blah2", 0.2, WtUnit.KG));
+        FloatingActionButton addFAB = view.findViewById(R.id.addExerciseActionButton);
+        addFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createAddExerciseDialog();
+            }
+        });
 
         return view;
     }
+
 
     private void displayExcercise(int position) {
         ExerciseFragment exerciseFragment = new ExerciseFragment();
@@ -116,5 +121,28 @@ public class HomeFragment extends Fragment {
     private void saveData(int position) {
         // TODO: save to db
         mAdapter.notifyDataSetChanged();
+    }
+
+    private void createAddExerciseDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+        builder.setTitle("Add Exercise");
+
+        final EditText input = new EditText(this.getContext());
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                homeViewModel.addItem(new Exercise(UUID.randomUUID(), input.getText().toString(), 10.0, WtUnit.KG));
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
     }
 }
