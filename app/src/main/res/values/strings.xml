@@ -19,4 +19,5 @@
     <string name="exercise_page_explore_button_placeholder">Explore</string>
     <string name="addExerciseNameHint">Exercise Name</string>
     <string name="addExerciseWeightHint">Exercise Weight</string>
+    <string name="addExerciseUnitSpinnerPrompt">Unit</string>
 </resources>

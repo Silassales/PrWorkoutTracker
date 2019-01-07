@@ -8,12 +8,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.timothy.silas.prworkouttracker.ClickListener;
 import com.timothy.silas.prworkouttracker.Database.Exercise.Exercise;
+import com.timothy.silas.prworkouttracker.Database.Utils.WtUnitConverter;
 import com.timothy.silas.prworkouttracker.Exercise.ExerciseFragment;
 import com.timothy.silas.prworkouttracker.Models.WtUnit;
 import com.timothy.silas.prworkouttracker.R;
@@ -133,14 +136,18 @@ public class HomeFragment extends Fragment {
         final EditText nameInput = view.findViewById(R.id.addExerciseNameEditText);
         final EditText weightInput = view.findViewById(R.id.addExerciseWeightEditText);
 
-//        final EditText input = new EditText(this.getContext());
-//        input.setInputType(InputType.TYPE_CLASS_TEXT);
-//        builder.setView(input);
+        final Spinner unitSpinner = view.findViewById(R.id.addExerciseWtUnitSpinner);
+        ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(getContext(), R.array.wtUnitArray, android.R.layout.simple_spinner_item);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        unitSpinner.setAdapter(arrayAdapter);
 
         builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                homeViewModel.addItem(new Exercise(UUID.randomUUID(), nameInput.getText().toString(), Double.parseDouble(weightInput.getText().toString()), WtUnit.KG));
+                homeViewModel.addItem(new Exercise(UUID.randomUUID(),
+                        nameInput.getText().toString(),
+                        Double.parseDouble(weightInput.getText().toString()),
+                        WtUnitConverter.toWtUnit(unitSpinner.getSelectedItem().toString())));
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

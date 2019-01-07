@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
     <EditText
         android:id="@+id/addExerciseNameEditText"
         android:inputType="text"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:hint="@string/addExerciseNameHint"
         />
 
@@ -15,13 +16,20 @@
         android:id="@+id/addExerciseWeightEditText"
         android:inputType="numberDecimal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:hint="@string/addExerciseWeightHint"
+        android:layout_below="@+id/addExerciseNameEditText"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/addExerciseWtUnitSpinner"
         />
 
     <Spinner
         android:id="@+id/addExerciseWtUnitSpinner"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:prompt="@string/addExerciseUnitSpinnerPrompt"
+        android:layout_below="@+id/addExerciseNameEditText"
+        android:layout_alignParentRight="true"
         />
-</LinearLayout>
+</RelativeLayout>
