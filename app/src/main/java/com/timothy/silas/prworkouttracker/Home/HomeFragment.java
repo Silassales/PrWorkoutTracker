@@ -127,14 +127,20 @@ public class HomeFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
         builder.setTitle("Add Exercise");
 
-        final EditText input = new EditText(this.getContext());
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(input);
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View view = inflater.inflate(R.layout.exercise_add_dialog_content, null);
+        builder.setView(view);
+        final EditText nameInput = view.findViewById(R.id.addExerciseNameEditText);
+        final EditText weightInput = view.findViewById(R.id.addExerciseWeightEditText);
+
+//        final EditText input = new EditText(this.getContext());
+//        input.setInputType(InputType.TYPE_CLASS_TEXT);
+//        builder.setView(input);
 
         builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                homeViewModel.addItem(new Exercise(UUID.randomUUID(), input.getText().toString(), 10.0, WtUnit.KG));
+                homeViewModel.addItem(new Exercise(UUID.randomUUID(), nameInput.getText().toString(), Double.parseDouble(weightInput.getText().toString()), WtUnit.KG));
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

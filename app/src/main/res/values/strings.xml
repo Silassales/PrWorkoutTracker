@@ -17,4 +17,6 @@
     <string name="exercise_page_content_placeholder">Exercise Data</string>
     <string name="exercise_page_share_button_placeholder">Share</string>
     <string name="exercise_page_explore_button_placeholder">Explore</string>
+    <string name="addExerciseNameHint">Exercise Name</string>
+    <string name="addExerciseWeightHint">Exercise Weight</string>
 </resources>
