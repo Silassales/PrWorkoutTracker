@@ -7,6 +7,8 @@ import com.timothy.silas.prworkouttracker.Database.AppDatabase;
 import com.timothy.silas.prworkouttracker.Database.Exercise.Exercise;
 
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.prefs.AbstractPreferences;
 
 import androidx.lifecycle.AndroidViewModel;
@@ -28,6 +30,13 @@ public class HomeViewModel extends AndroidViewModel {
 
     public LiveData<List<Exercise>> getExerciseList() {
         return exerciseList;
+    }
+
+    public void updateWeight(Exercise exercise, Double newWeight) {
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            appDatabase.exerciseDao().updateWeight(exercise.getId(), newWeight);
+        });
     }
 
     public void addItem(Exercise exercise) {

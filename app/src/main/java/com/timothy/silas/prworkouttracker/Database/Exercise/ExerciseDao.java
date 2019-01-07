@@ -26,6 +26,10 @@ public interface ExerciseDao {
     @Query("SELECT * FROM exercise where (:name) = name")
     Exercise getByName(String name);
 
+    @Query("UPDATE exercise SET weight = (:newWeight) where id = (:id)")
+    @TypeConverters(UUIDConverter.class)
+    void updateWeight(UUID id, Double newWeight);
+
     @Insert(onConflict = REPLACE)
     void insert(Exercise exercise);
 

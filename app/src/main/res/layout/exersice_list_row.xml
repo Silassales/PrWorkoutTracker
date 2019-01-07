@@ -42,11 +42,11 @@
 
     <Button
         android:id="@+id/exercise_add_weight_button"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:text="Button"
+        android:text="@string/defaultAddToExerciseAmount"
         android:layout_alignParentRight="true"
         android:padding="@dimen/excersice_list_item_padding"/>
 

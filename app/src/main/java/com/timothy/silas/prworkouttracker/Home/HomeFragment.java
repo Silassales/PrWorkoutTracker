@@ -24,6 +24,7 @@ import com.timothy.silas.prworkouttracker.R;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.Executor;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -60,9 +61,9 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onPositionAddButtonClicked(int position) {
-                Log.i("HomeFragment", "Clicked on add button on row: " + position);
-                //TODO ExerciseUtils.addWeight(homeViewModel.getExerciseList().getValue().get(position));
-                saveData(position);
+                final Exercise exercise = homeViewModel.getExerciseList().getValue().get(position);
+                //TODO change this to a stored pref
+                homeViewModel.updateWeight(exercise, exercise.getWeight() + 2.5);
             }
 
             @Override
