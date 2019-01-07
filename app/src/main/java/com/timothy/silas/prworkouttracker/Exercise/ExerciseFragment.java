@@ -5,7 +5,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.timothy.silas.prworkouttracker.Database.AppDatabase;
 import com.timothy.silas.prworkouttracker.Database.Exercise.Exercise;
 import com.timothy.silas.prworkouttracker.R;
 
@@ -15,25 +17,22 @@ import androidx.fragment.app.Fragment;
 
 public class ExerciseFragment extends Fragment {
 
-    private UUID exerciseUUID;
-    private Exercise exercise;
-
-    public void setExerciseUUID(UUID exerciseUUID) {
-        this.exerciseUUID = exerciseUUID;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.exercise_page_fragment, container, false);
+        Bundle args = getArguments();
+        Exercise exercise = (Exercise) args.getSerializable(getString(R.string.EXERCISE_TAG));
+        
+        TextView titleView = view.findViewById(R.id.ExerciseTitleTextView);
+        TextView dataView = view.findViewById(R.id.ExerciseDataTextView);
 
-        if(exerciseUUID != null) {
-            //exercise = ExerciseDBUtils.getExerciseData(exerciseUUID);
-        } else {
-            Log.w("ExerciseFragment", "Exercise is null in onCreateView");
-            String error_text = getResources().getString(R.string.default_report_error_message) + getResources().getString(R.string.dev_email) + ". Error is Exercise is null in onCreateView";
-        }
+        titleView.setText(exercise.getName());
+        dataView.setText(exercise.getWeight().toString());
 
         return view;
     }
+
+
 
 }

@@ -112,8 +112,11 @@ public class HomeFragment extends Fragment {
 
 
     private void displayExcercise(int position) {
+        Bundle args = new Bundle();
+        args.putSerializable(getString(R.string.EXERCISE_TAG), homeViewModel.getExerciseList().getValue().get(position));
         ExerciseFragment exerciseFragment = new ExerciseFragment();
-        exerciseFragment.setExerciseUUID(homeViewModel.getExerciseList().getValue().get(position).getId());
+        exerciseFragment.setArguments(args);
+
 
         if(exerciseFragment != null) {
             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();

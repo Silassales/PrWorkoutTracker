@@ -20,4 +20,5 @@
     <string name="addExerciseNameHint">Exercise Name</string>
     <string name="addExerciseWeightHint">Exercise Weight</string>
     <string name="addExerciseUnitSpinnerPrompt">Unit</string>
+    <string name="EXERCISE_TAG">EXERCISE</string>
 </resources>

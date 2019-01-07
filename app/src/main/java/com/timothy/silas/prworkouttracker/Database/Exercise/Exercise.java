@@ -4,6 +4,7 @@ import com.timothy.silas.prworkouttracker.Database.Utils.UUIDConverter;
 import com.timothy.silas.prworkouttracker.Database.Utils.WtUnitConverter;
 import com.timothy.silas.prworkouttracker.Models.WtUnit;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -14,7 +15,9 @@ import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 @Entity
-public class Exercise {
+public class Exercise implements Serializable {
+    private static final long serialVersionUID = -1L;
+
     @PrimaryKey
     @TypeConverters(UUIDConverter.class)
     @NonNull
