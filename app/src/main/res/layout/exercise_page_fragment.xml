@@ -41,21 +41,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/exercise_page_content_placeholder" />
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/exercise_page_share_button_placeholder" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/exercise_page_explore_button_placeholder" />
-            </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
