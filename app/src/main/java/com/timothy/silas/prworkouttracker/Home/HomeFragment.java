@@ -52,7 +52,7 @@ public class HomeFragment extends Fragment {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        homeAdapter = new HomeAdapter(new ArrayList<Exercise>(), new ClickListener() {
+        homeAdapter = new HomeAdapter(new ArrayList<>(), new ClickListener() {
             @Override
             public void onPositionRowClicked(int position) {
                 Log.i("HomeFragment", "Clicked on row: " + position);
@@ -87,20 +87,10 @@ public class HomeFragment extends Fragment {
 
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
 
-        homeViewModel.getExerciseList().observe(HomeFragment.this, new Observer<List<Exercise>>() {
-            @Override
-            public void onChanged(@Nullable List<Exercise> exercises) {
-                homeAdapter.addItems(exercises);
-            }
-        });
+        homeViewModel.getExerciseList().observe(HomeFragment.this, exercises -> homeAdapter.addItems(exercises));
 
         FloatingActionButton addFAB = view.findViewById(R.id.addExerciseActionButton);
-        addFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createAddExerciseDialog();
-            }
-        });
+        addFAB.setOnClickListener(view1 -> createAddExerciseDialog());
 
         return view;
     }
@@ -119,10 +109,6 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void saveData(int position) {
-        // TODO: save to db
-        mAdapter.notifyDataSetChanged();
-    }
 
     private void createAddExerciseDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
@@ -139,21 +125,11 @@ public class HomeFragment extends Fragment {
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unitSpinner.setAdapter(arrayAdapter);
 
-        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                homeViewModel.addItem(new Exercise(UUID.randomUUID(),
-                        nameInput.getText().toString(),
-                        Double.parseDouble(weightInput.getText().toString()),
-                        WtUnitConverter.toWtUnit(unitSpinner.getSelectedItem().toString())));
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+        builder.setPositiveButton("Add", (dialog, which) -> homeViewModel.addItem(new Exercise(UUID.randomUUID(),
+                nameInput.getText().toString(),
+                Double.parseDouble(weightInput.getText().toString()),
+                WtUnitConverter.toWtUnit(unitSpinner.getSelectedItem().toString()))));
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
         builder.show();
     }
 }
