@@ -15,10 +15,12 @@
     <TextView
         android:id="@+id/exercise_name_textview"
         android:layout_width="@dimen/excersice_list_name_width"
-        android:layout_height="@dimen/excersice_list_height"
-        android:layout_alignParentTop="true"
-        android:textSize="16sp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
         android:textStyle="bold"
+        android:textColor="@color/colorMainText"
+        android:textSize="@dimen/exercise_list_name_text_size"
         android:padding="@dimen/excersice_list_item_padding"/>
 
     <EditText
@@ -27,7 +29,6 @@
         android:layout_height="@dimen/excersice_list_height"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/exercise_name_textview"
-        android:layout_toRightOf="@+id/exercise_name_textview"
         android:padding="@dimen/excersice_list_item_padding"
         android:inputType="numberDecimal"
         android:imeOptions="actionDone"/>
@@ -35,9 +36,9 @@
     <TextView
         android:id="@+id/exercise_wt_unit_textview"
         android:layout_width="@dimen/excersice_list_wt_unit_width"
-        android:layout_height="@dimen/excersice_list_height"
+        android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/exercise_weight_edittext"
-        android:layout_toRightOf="@+id/exercise_weight_edittext"
+        android:layout_centerVertical="true"
         android:padding="@dimen/excersice_list_item_padding"/>
 
     <Button
@@ -47,7 +48,6 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:text="@string/defaultAddToExerciseAmount"
-        android:layout_alignParentRight="true"
         android:padding="@dimen/excersice_list_item_padding"/>
 
 </RelativeLayout>

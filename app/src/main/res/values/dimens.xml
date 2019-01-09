@@ -12,4 +12,5 @@
     <dimen name="excersice_list_wt_unit_width">25dp</dimen>
     <dimen name="excersice_list_item_padding">2dp</dimen>
     <dimen name="excersice_list_height">50dp</dimen>
+    <dimen name="exercise_list_name_text_size">16sp</dimen>
 </resources>
