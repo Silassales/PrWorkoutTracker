@@ -19,7 +19,6 @@
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:textStyle="bold"
-        android:textColor="@color/colorMainText"
         android:textSize="@dimen/exercise_list_name_text_size"
         android:padding="@dimen/excersice_list_item_padding"/>
 
