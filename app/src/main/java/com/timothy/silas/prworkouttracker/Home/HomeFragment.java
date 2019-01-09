@@ -62,31 +62,25 @@ public class HomeFragment extends Fragment {
             @Override
             public void onPositionAddButtonClicked(int position) {
                 final Exercise exercise = homeViewModel.getExerciseList().getValue().get(position);
-                //TODO change this to a stored pref
+                //TODO change value increased to a stored pref
                 homeViewModel.updateWeight(exercise, exercise.getWeight() + 2.5);
             }
 
             @Override
-            public void updatedWeightText(int position, String newWeight) {
-                //TODO
-//                // we will try to check if this is a new value and try to minimize unneeded updates
-//                boolean needToUpdate = true;
-//                // update the list with the new value in the edit text
-//                try {
-//                    double tempVal = Double.valueOf(newWeight);
-//                    if(Double.compare(tempVal, homeViewModel.getExerciseList().getValue().get(position).getWeight()) == 0) {
-//                        needToUpdate = false;
-//                    } else {
-//                        homeViewModel.getExerciseList().getValue().get(position).setWeight(tempVal);
-//                    }
-//                } catch (NumberFormatException e) {
-//                    Log.w("HomeFragment", "non double value found when updating weight text");
-//                    // if we return here the value will just be set to whatever it was before this update was done
-//                    return;
-//                }
-//                if(needToUpdate) saveData(position);
+            public void updateWeightText(int position, String newWeight) {
+                Double newWeightDouble = homeViewModel.getExerciseList().getValue().get(position).getWeight()
+                        , oldWeightValue = homeViewModel.getExerciseList().getValue().get(position).getWeight();
+                try {
+                    newWeightDouble = Double.parseDouble(newWeight);
+                } catch (NumberFormatException e) {
+                    Log.w("HomeFragment", "non double value found when updating weight text");
+                }
+                // if we failed to parse the new weight, we can just set the weight to what it was previously
+                Log.i("Update Weight Exercise " + position, "with value " + newWeightDouble + " was " + oldWeightValue);
+                homeViewModel.updateWeight(homeViewModel.getExerciseList().getValue().get(position), newWeightDouble);
             }
         });
+
         mAdapter = homeAdapter;
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());

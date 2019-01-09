@@ -76,18 +76,15 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
             wtUnit.setOnClickListener(this);
             addButton.setOnClickListener(this);
 
-            weight.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                @Override
-                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                    if (actionId == EditorInfo.IME_ACTION_DONE) {
-                        listenerRef.get().updatedWeightText(getAdapterPosition(), weight.getText().toString());
-                        InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                        v.clearFocus();
-                        return true;
-                    }
-                    return false;
+            weight.setOnEditorActionListener((v, actionId, event) -> {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    listenerRef.get().updateWeightText(getAdapterPosition(), weight.getText().toString());
+                    InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    v.clearFocus();
+                    return true;
                 }
+                return false;
             });
         }
 

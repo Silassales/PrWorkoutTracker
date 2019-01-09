@@ -5,5 +5,5 @@ public interface ClickListener {
 
     void onPositionAddButtonClicked(int position);
 
-    void updatedWeightText(int position, String newWeight);
+    void updateWeightText(int position, String newWeight);
 }
