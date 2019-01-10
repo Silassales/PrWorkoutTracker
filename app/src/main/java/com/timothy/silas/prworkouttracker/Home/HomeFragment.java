@@ -43,10 +43,17 @@ public class HomeFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private Spinner sortSpinner;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.home_fragment, container, false);
+
+        sortSpinner = view.findViewById(R.id.exercise_sort_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.exerciseSortArray, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sortSpinner.setAdapter(adapter);
+        sortSpinner.setPrompt(getString(R.string.exercise_sort_spinner_prompt));
 
         mRecyclerView = view.findViewById(R.id.home_excercise_list);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));

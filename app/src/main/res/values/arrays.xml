@@ -4,4 +4,10 @@
         <item>KG</item>
         <item>LB</item>
     </string-array>
+    <string-array name="exerciseSortArray">
+        <item>Default</item>
+        <item>Name</item>
+        <item>Weight</item>
+        <item>Weight Unit</item>
+    </string-array>
 </resources>

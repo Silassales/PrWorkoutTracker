@@ -22,4 +22,6 @@
     <string name="addExerciseUnitSpinnerPrompt">Unit</string>
     <string name="EXERCISE_TAG">EXERCISE</string>
     <string name="defaultAddToExerciseAmount">2.5</string>
+    <string name="exercise_sort_spinner_prompt">Select how to sort exercises</string>
+    <string name="exercise_sort_spinner_title_text">Sort By:</string>
 </resources>
