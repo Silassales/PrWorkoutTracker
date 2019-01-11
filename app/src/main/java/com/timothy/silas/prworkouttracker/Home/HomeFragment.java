@@ -50,7 +50,7 @@ public class HomeFragment extends Fragment {
         final View view = inflater.inflate(R.layout.home_fragment, container, false);
 
         sortSpinner = view.findViewById(R.id.exercise_sort_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.exerciseSortArray, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.exerciseSortArray, R.layout.sort_spinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sortSpinner.setAdapter(adapter);
         sortSpinner.setPrompt(getString(R.string.exercise_sort_spinner_prompt));
@@ -132,10 +132,21 @@ public class HomeFragment extends Fragment {
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unitSpinner.setAdapter(arrayAdapter);
 
-        builder.setPositiveButton("Add", (dialog, which) -> homeViewModel.addItem(new Exercise(UUID.randomUUID(),
-                nameInput.getText().toString(),
-                Double.parseDouble(weightInput.getText().toString()),
-                WtUnitConverter.toWtUnit(unitSpinner.getSelectedItem().toString()))));
+        builder.setPositiveButton("Add", (dialog, which) -> {
+            final String name = (nameInput.getText().toString().isEmpty() ?
+                    getString(R.string.add_exercise_name_default) :
+                    nameInput.getText().toString());
+            final Double weight = (weightInput.getText().toString().isEmpty() ?
+                    Double.parseDouble(getString(R.string.add_exercise_weight_default)) :
+                    Double.parseDouble(weightInput.getText().toString()));
+
+            homeViewModel.addItem(new Exercise(UUID.randomUUID(),
+                    name,
+                    weight,
+                    WtUnitConverter.toWtUnit(unitSpinner.getSelectedItem().toString())));
+
+            Snackbar.make(getView(), getString(R.string.add_exercise_confirm_snackbar, name), Snackbar.LENGTH_SHORT).show();
+        });
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
         builder.show();
     }
