@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -22,6 +23,8 @@ import com.timothy.silas.prworkouttracker.Models.WtUnit;
 import com.timothy.silas.prworkouttracker.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.Executor;
@@ -53,7 +56,7 @@ public class HomeFragment extends Fragment {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.exerciseSortArray, R.layout.sort_spinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sortSpinner.setAdapter(adapter);
-        sortSpinner.setPrompt(getString(R.string.exercise_sort_spinner_prompt));
+        sortSpinner.setOnItemSelectedListener(getSortSpinnerListener(getResources().getStringArray(R.array.exerciseSortArray)));
 
         mRecyclerView = view.findViewById(R.id.home_excercise_list);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
@@ -150,4 +153,32 @@ public class HomeFragment extends Fragment {
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
         builder.show();
     }
+
+    private AdapterView.OnItemSelectedListener getSortSpinnerListener(String[] sortOptions) {
+        return new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                final String selectedItem = parent.getItemAtPosition(position).toString();
+                if(selectedItem.equals(sortOptions[0])) { // Default
+                    Log.i("Sort Exercise Selected", "Sorting by Default");
+                    // TODO figure out how to make this work, sort by ID?
+                } else if(selectedItem.equals(sortOptions[1])) { // Name
+                    Log.i("Sort Exercise Selected", "Sorting by Name");
+                    Collections.sort(homeViewModel.getExerciseList().getValue(), (o1, o2) -> o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase()));
+                } else if(selectedItem.equals(sortOptions[2])) { // Weight
+                    Log.i("Sort Exercise Selected", "Sorting by Weight");
+                    Collections.sort(homeViewModel.getExerciseList().getValue(), (o1, o2) -> Double.compare(o2.getWeight(), o1.getWeight()));
+                } else if(selectedItem.equals(sortOptions[3])) { // Weight Unit
+                    Log.i("Sort Exercise Selected", "Sorting by Weight Unit");
+                    Collections.sort(homeViewModel.getExerciseList().getValue(), (o1, o2) -> o1.getWeightUnit().toString().compareTo(o2.getWeightUnit().toString()));
+                }
+                homeAdapter.notifyDataSetChanged();
+            } // to close the onItemSelected
+            public void onNothingSelected(AdapterView<?> parent)
+            {
+
+            }
+        };
+    }
+
 }

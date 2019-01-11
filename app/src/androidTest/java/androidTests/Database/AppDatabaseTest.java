@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -154,7 +155,7 @@ public class AppDatabaseTest {
         UUID id3 = UUID.randomUUID();
         exerciseDao.insert(ExerciseUtils.createExercise(id3));
 
-        List<Exercise> retrievedList = exerciseDao.getAll();
+        MutableLiveData<List<Exercise>> retrievedList = exerciseDao.getAll();
 
         assertThat(retrievedList.get(0), equalTo(basicExercise));
         assertThat(retrievedList.get(1).id, equalTo(id2));
