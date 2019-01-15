@@ -95,12 +95,24 @@ public class HomeFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
+        FloatingActionButton addFAB = view.findViewById(R.id.addExerciseActionButton);
+        addFAB.setOnClickListener(view1 -> createAddExerciseDialog());
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && addFAB.getVisibility() == View.VISIBLE) {
+                    addFAB.hide();
+                } else if (dy < 0 && addFAB.getVisibility() != View.VISIBLE) {
+                    addFAB.show();
+                }
+            }
+        });
+
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
 
         homeViewModel.getExerciseList().observe(HomeFragment.this, exercises -> homeAdapter.addItems(exercises));
-
-        FloatingActionButton addFAB = view.findViewById(R.id.addExerciseActionButton);
-        addFAB.setOnClickListener(view1 -> createAddExerciseDialog());
 
         return view;
     }
