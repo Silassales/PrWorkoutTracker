@@ -19,6 +19,7 @@ import com.timothy.silas.prworkouttracker.ClickListener;
 import com.timothy.silas.prworkouttracker.Database.Exercise.Exercise;
 import com.timothy.silas.prworkouttracker.Database.Utils.WtUnitConverter;
 import com.timothy.silas.prworkouttracker.Exercise.ExerciseFragment;
+import com.timothy.silas.prworkouttracker.Home.Helper.HomeSimpleItemTouchHelperCallback;
 import com.timothy.silas.prworkouttracker.Models.WtUnit;
 import com.timothy.silas.prworkouttracker.R;
 
@@ -36,6 +37,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -47,6 +49,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private Spinner sortSpinner;
+    private ItemTouchHelper itemTouchHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -110,11 +113,26 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+        ItemTouchHelper.Callback callback = new HomeSimpleItemTouchHelperCallback(homeAdapter, mRecyclerView);
+        itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
+        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         homeViewModel.getExerciseList().observe(HomeFragment.this, exercises -> homeAdapter.addItems(exercises));
 
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        if (homeAdapter != null) {
+            if (homeAdapter.exercisesToRemove != null) {
+                for (Exercise exercise: homeAdapter.exercisesToRemove){
+                    homeViewModel.deleteExercise(exercise);
+                }
+            }
+        }
+        super.onPause();
     }
 
 
@@ -130,7 +148,6 @@ public class HomeFragment extends Fragment {
             ft.replace(R.id.content_frame, exerciseFragment).addToBackStack( "tag" ).commit();
         }
     }
-
 
     private void createAddExerciseDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());

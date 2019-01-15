@@ -1,8 +1,8 @@
 package com.timothy.silas.prworkouttracker.Home;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,23 +12,29 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.timothy.silas.prworkouttracker.ClickListener;
 import com.timothy.silas.prworkouttracker.Database.Exercise.Exercise;
+import com.timothy.silas.prworkouttracker.Home.Helper.HomeItemTouchHelperAdapter;
+import com.timothy.silas.prworkouttracker.Home.Helper.HomeItemTouchHelperViewHolder;
 import com.timothy.silas.prworkouttracker.R;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
+public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> implements HomeItemTouchHelperAdapter {
 
     private final ClickListener listener;
     private List<Exercise> exerciseList;
+    public List<Exercise> exercisesToRemove;
 
     public HomeAdapter(List<Exercise> exerciseList, ClickListener listener) {
         this.exerciseList = exerciseList;
         this.listener = listener;
+        this.exercisesToRemove = new ArrayList<>();
     }
 
     @Override
@@ -53,8 +59,26 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         notifyDataSetChanged();
     }
 
+    @Override
+    public void onItemRemove(final RecyclerView.ViewHolder viewHolder, final RecyclerView recyclerView) {
+        final int adapterPosition = viewHolder.getAdapterPosition();
+        final Exercise exerciseToRemove = exerciseList.get(adapterPosition);
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        Snackbar snackbar = Snackbar.make(recyclerView, "Exercise \"" + exerciseToRemove.getName() + "\" removed!", Snackbar.LENGTH_LONG)
+                .setAction("UNDO", view -> {
+                    exerciseList.add(adapterPosition, exerciseToRemove);
+                    notifyItemInserted(adapterPosition);
+                    recyclerView.scrollToPosition(adapterPosition);
+                    exercisesToRemove.remove(exerciseToRemove);
+                });
+        snackbar.show();
+        exerciseList.remove(adapterPosition);
+        notifyItemRemoved(adapterPosition);
+        exercisesToRemove.add(exerciseToRemove);
+    }
+
+
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, HomeItemTouchHelperViewHolder {
         public TextView name;
         public EditText weight;
         public TextView wtUnit;
@@ -99,6 +123,16 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
             } else {
                 listenerRef.get().onPositionRowClicked(getAdapterPosition());
             }
+        }
+
+        @Override
+        public void onItemSelected() {
+            itemView.setBackgroundColor(Color.LTGRAY);
+        }
+
+        @Override
+        public void onItemClear() {
+            itemView.setBackgroundColor(0);
         }
     }
 

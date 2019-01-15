@@ -39,6 +39,13 @@ public class HomeViewModel extends AndroidViewModel {
         });
     }
 
+    public void deleteExercise(Exercise exercise) {
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            appDatabase.exerciseDao().delete(exercise);
+        });
+    }
+
     public void addItem(Exercise exercise) {
         new insertAsyncTask(appDatabase).execute(exercise);
     }
