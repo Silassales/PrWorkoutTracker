@@ -32,7 +32,7 @@ public class AppDatabaseTest {
     private ExerciseDao exerciseDao;
     private AppDatabase appDatabase;
 
-    private UUID uuid;
+    private Integer uuid;
     private Exercise basicExercise;
 
     @Before
@@ -94,7 +94,7 @@ public class AppDatabaseTest {
 
     @Test
     public void getById_withMissingData_returnsNull() {
-        UUID newUUID = UUID.randomUUID();
+        Integer newUUID = UUID.randomUUID();
 
         Exercise exercise = exerciseDao.getById(newUUID);
 
@@ -116,7 +116,7 @@ public class AppDatabaseTest {
 
     @Test
     public void delete_withDataInDatabase_onlyDeletesExerciseWeWantItTo() {
-        UUID newUUID = UUID.randomUUID();
+        Integer newUUID = UUID.randomUUID();
         Exercise exercise = ExerciseUtils.createExercise(newUUID);
 
         exerciseDao.insert(exercise);
@@ -150,9 +150,9 @@ public class AppDatabaseTest {
     @Test
     public void getAll_withData_returnsCorrectData() {
         exerciseDao.insert(basicExercise);
-        UUID id2 = UUID.randomUUID();
+        Integer id2 = UUID.randomUUID();
         exerciseDao.insert(ExerciseUtils.createExercise(id2));
-        UUID id3 = UUID.randomUUID();
+        Integer id3 = UUID.randomUUID();
         exerciseDao.insert(ExerciseUtils.createExercise(id3));
 
         MutableLiveData<List<Exercise>> retrievedList = exerciseDao.getAll();

@@ -1,12 +1,10 @@
 package com.timothy.silas.prworkouttracker.Database.Exercise;
 
-import com.timothy.silas.prworkouttracker.Database.Utils.UUIDConverter;
 import com.timothy.silas.prworkouttracker.Database.Utils.WtUnitConverter;
 import com.timothy.silas.prworkouttracker.Models.WtUnit;
 
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.UUID;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -18,10 +16,9 @@ import androidx.room.TypeConverters;
 public class Exercise implements Serializable {
     private static final long serialVersionUID = -1L;
 
-    @PrimaryKey
-    @TypeConverters(UUIDConverter.class)
+    @PrimaryKey(autoGenerate = true)
     @NonNull
-    private UUID id;
+    private Integer id;
 
     @ColumnInfo(name = "name")
     private String name;
@@ -33,14 +30,14 @@ public class Exercise implements Serializable {
     @TypeConverters(WtUnitConverter.class)
     private WtUnit weightUnit;
 
-    public Exercise(UUID id, String name, Double weight, WtUnit weightUnit) {
+    public Exercise(Integer id, String name, Double weight, WtUnit weightUnit) {
         this.id = id;
         this.name = name;
         this.weight = weight;
         this.weightUnit = weightUnit;
     }
 
-    public UUID getId() {
+    public Integer getId() {
         return id;
     }
 

@@ -1,9 +1,6 @@
 package com.timothy.silas.prworkouttracker.Database.Exercise;
 
-import com.timothy.silas.prworkouttracker.Database.Utils.UUIDConverter;
-
 import java.util.List;
-import java.util.UUID;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -20,15 +17,13 @@ public interface ExerciseDao {
     LiveData<List<Exercise>> getAll();
 
     @Query("SELECT * FROM exercise where id = :id")
-    @TypeConverters(UUIDConverter.class)
-    Exercise getById(UUID id);
+    Exercise getById(Integer id);
 
     @Query("SELECT * FROM exercise where (:name) = name")
     Exercise getByName(String name);
 
     @Query("UPDATE exercise SET weight = (:newWeight) where id = (:id)")
-    @TypeConverters(UUIDConverter.class)
-    void updateWeight(UUID id, Double newWeight);
+    void updateWeight(Integer id, Double newWeight);
 
     @Insert(onConflict = REPLACE)
     void insert(Exercise exercise);

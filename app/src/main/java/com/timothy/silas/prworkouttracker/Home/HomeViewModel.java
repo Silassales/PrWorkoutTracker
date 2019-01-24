@@ -9,7 +9,6 @@ import com.timothy.silas.prworkouttracker.Database.Exercise.Exercise;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.prefs.AbstractPreferences;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;

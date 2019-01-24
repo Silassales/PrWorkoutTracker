@@ -172,7 +172,7 @@ public class HomeFragment extends Fragment {
                     Double.parseDouble(getString(R.string.add_exercise_weight_default)) :
                     Double.parseDouble(weightInput.getText().toString()));
 
-            homeViewModel.addItem(new Exercise(UUID.randomUUID(),
+            homeViewModel.addItem(new Exercise(null,
                     name,
                     weight,
                     WtUnitConverter.toWtUnit(unitSpinner.getSelectedItem().toString())));
@@ -189,8 +189,8 @@ public class HomeFragment extends Fragment {
             {
                 final String selectedItem = parent.getItemAtPosition(position).toString();
                 if(selectedItem.equals(sortOptions[0])) { // Default
-                    Log.i("Sort Exercise Selected", "Sorting by Default");
-                    // TODO figure out how to make this work, sort by ID?
+                    Log.i("Sort Exercise Selected", "Sorting by Default aka ID");
+                    Collections.sort(homeViewModel.getExerciseList().getValue(), ((o1, o2) -> Integer.compare(o1.getId(), o2.getId())));
                 } else if(selectedItem.equals(sortOptions[1])) { // Name
                     Log.i("Sort Exercise Selected", "Sorting by Name");
                     Collections.sort(homeViewModel.getExerciseList().getValue(), (o1, o2) -> o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase()));
