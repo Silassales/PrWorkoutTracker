@@ -1,4 +1,4 @@
-package com.timothy.silas.prworkouttracker;
+package com.timothy.silas.prworkouttracker.Home;
 
 public interface ClickListener {
     void onPositionRowClicked(int position);
