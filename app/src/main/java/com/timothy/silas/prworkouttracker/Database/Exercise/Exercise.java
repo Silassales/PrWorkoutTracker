@@ -1,5 +1,6 @@
 package com.timothy.silas.prworkouttracker.Database.Exercise;
 
+import com.timothy.silas.prworkouttracker.Database.Category.Category;
 import com.timothy.silas.prworkouttracker.Database.Utils.WtUnitConverter;
 import com.timothy.silas.prworkouttracker.Models.WtUnit;
 
@@ -9,10 +10,13 @@ import java.util.Objects;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-@Entity
+import static androidx.room.ForeignKey.SET_NULL;
+
+@Entity(foreignKeys = @ForeignKey(entity = Category.class, parentColumns = "id", childColumns = "category_id", onDelete = SET_NULL))
 public class Exercise implements Serializable {
     private static final long serialVersionUID = -1L;
 
@@ -30,11 +34,15 @@ public class Exercise implements Serializable {
     @TypeConverters(WtUnitConverter.class)
     private WtUnit weightUnit;
 
-    public Exercise(Integer id, String name, Double weight, WtUnit weightUnit) {
+    @ColumnInfo(name = "category_id")
+    private Integer categoryId;
+
+    public Exercise(Integer id, String name, Double weight, WtUnit weightUnit, Integer categoryId) {
         this.id = id;
         this.name = name;
         this.weight = weight;
         this.weightUnit = weightUnit;
+        this.categoryId = categoryId;
     }
 
     public Integer getId() {
@@ -53,6 +61,8 @@ public class Exercise implements Serializable {
         return weightUnit;
     }
 
+    public Integer getCategoryId() { return  categoryId; }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -61,12 +71,12 @@ public class Exercise implements Serializable {
         return Objects.equals(id, exercise.id) &&
                 Objects.equals(name, exercise.name) &&
                 Objects.equals(weight, exercise.weight) &&
-                weightUnit == exercise.weightUnit;
+                weightUnit == exercise.weightUnit &&
+                Objects.equals(categoryId, exercise.categoryId);
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(id, name, weight, weightUnit);
+        return Objects.hash(id, name, weight, weightUnit, categoryId);
     }
 }

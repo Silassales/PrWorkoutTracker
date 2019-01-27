@@ -22,6 +22,9 @@ public interface ExerciseDao {
     @Query("SELECT * FROM exercise where (:name) = name")
     Exercise getByName(String name);
 
+    @Query("SELECT * FROM exercise where category_id = (:categoryId)")
+    void getByCategory(Integer categoryId);
+
     @Query("UPDATE exercise SET weight = (:newWeight) where id = (:id)")
     void updateWeight(Integer id, Double newWeight);
 

@@ -175,7 +175,8 @@ public class HomeFragment extends Fragment {
             homeViewModel.addItem(new Exercise(null,
                     name,
                     weight,
-                    WtUnitConverter.toWtUnit(unitSpinner.getSelectedItem().toString())));
+                    WtUnitConverter.toWtUnit(unitSpinner.getSelectedItem().toString()),
+                    null));
 
             Snackbar.make(getView(), getString(R.string.add_exercise_confirm_snackbar, name), Snackbar.LENGTH_SHORT).show();
         });
