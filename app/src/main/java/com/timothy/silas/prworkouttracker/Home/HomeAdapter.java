@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.timothy.silas.prworkouttracker.ClickListener;
 import com.timothy.silas.prworkouttracker.Database.Exercise.Exercise;
 import com.timothy.silas.prworkouttracker.Home.Helper.HomeItemTouchHelperAdapter;
 import com.timothy.silas.prworkouttracker.Home.Helper.HomeItemTouchHelperViewHolder;
@@ -27,11 +26,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> implements HomeItemTouchHelperAdapter {
 
-    private final ClickListener listener;
+    private final HomeClickListener listener;
     private List<Exercise> exerciseList;
     public List<Exercise> exercisesToRemove;
 
-    public HomeAdapter(List<Exercise> exerciseList, ClickListener listener) {
+    public HomeAdapter(List<Exercise> exerciseList, HomeClickListener listener) {
         this.exerciseList = exerciseList;
         this.listener = listener;
         this.exercisesToRemove = new ArrayList<>();
@@ -83,9 +82,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         public EditText weight;
         public TextView wtUnit;
         public Button addButton;
-        private WeakReference<ClickListener> listenerRef;
+        private WeakReference<HomeClickListener> listenerRef;
 
-        public MyViewHolder(View view, ClickListener listener) {
+        public MyViewHolder(View view, HomeClickListener listener) {
             super(view);
 
             listenerRef = new WeakReference<>(listener);

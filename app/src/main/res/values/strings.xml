@@ -25,7 +25,10 @@
     <string name="exercise_sort_spinner_prompt">Select how to sort exercises</string>
     <string name="lists_sort_spinner_title_text">Sort By:</string>
     <string name="add_exercise_name_default">Exercise</string>
+    <string name="add_category_name_default">Category</string>
     <string name="add_exercise_weight_default">0.0</string>
     <string name="add_exercise_confirm_snackbar">Added Exercise \"%1$s\"!</string>
+    <string name="add_category_confirm_snackbar">Added Category \"%1$s\"!</string>
     <string name="remove_exercise_dialog_title">Are you sure you want to remove this exercise?</string>
+    <string name="addCategoryNameHint">Category Name</string>
 </resources>

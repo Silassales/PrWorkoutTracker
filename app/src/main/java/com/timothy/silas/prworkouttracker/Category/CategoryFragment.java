@@ -14,21 +14,14 @@ import android.widget.Spinner;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.timothy.silas.prworkouttracker.Category.Helper.CategorySimpleItemTouchHelperCallback;
-import com.timothy.silas.prworkouttracker.ClickListener;
+import com.timothy.silas.prworkouttracker.Database.Category.Category;
 import com.timothy.silas.prworkouttracker.Database.Exercise.Exercise;
-import com.timothy.silas.prworkouttracker.Database.Utils.WtUnitConverter;
-import com.timothy.silas.prworkouttracker.Exercise.ExerciseFragment;
-import com.timothy.silas.prworkouttracker.Home.Helper.HomeSimpleItemTouchHelperCallback;
-import com.timothy.silas.prworkouttracker.Home.HomeAdapter;
-import com.timothy.silas.prworkouttracker.Home.HomeFragment;
-import com.timothy.silas.prworkouttracker.Home.HomeViewModel;
 import com.timothy.silas.prworkouttracker.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -41,41 +34,31 @@ public class CategoryFragment extends Fragment {
     private CategoryViewModel categoryViewModel;
     private CategoryAdapter categoryAdapter;
 
-    private Spinner sortSpinner;
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter recyclerAdapter;
-    private RecyclerView.LayoutManager recyclerManager;
-
-    private ItemTouchHelper itemTouchHelper;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.category_fragment, container, false);
 
-        sortSpinner = view.findViewById(R.id.category_sort_spinner);
+        Spinner sortSpinner = view.findViewById(R.id.category_sort_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.categorySortArray, R.layout.sort_spinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sortSpinner.setAdapter(adapter);
         sortSpinner.setOnItemSelectedListener(getSortSpinnerListener(getResources().getStringArray(R.array.categorySortArray)));
 
-        recyclerView = view.findViewById(R.id.category_list_view);
+        RecyclerView recyclerView = view.findViewById(R.id.category_list_view);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        recyclerManager = new LinearLayoutManager(getActivity());
+        RecyclerView.LayoutManager recyclerManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(recyclerManager);
 
-        categoryAdapter = new CategoryAdapter(new ArrayList<>(), new ClickListener() {
-            @Override
-            public void onPositionRowClicked(int position) {
-                Log.i("CategoryFragment", "Clicked on row: " + position);
-                displayCategory(position);
-            }
+        categoryAdapter = new CategoryAdapter(new ArrayList<>(), position -> {
+            Log.i("CategoryFragment", "Clicked on row: " + position);
+            displayCategory(position);
         });
-        recyclerAdapter = categoryAdapter;
+        RecyclerView.Adapter recyclerAdapter = categoryAdapter;
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         FloatingActionButton addFAB = view.findViewById(R.id.addCategoryActionButton);
-        addFAB.setOnClickListener(view1 -> createAddExerciseDialog());
+        addFAB.setOnClickListener(view1 -> createAddCategoryDialog());
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -90,7 +73,7 @@ public class CategoryFragment extends Fragment {
         });
 
         ItemTouchHelper.Callback callback = new CategorySimpleItemTouchHelperCallback(categoryAdapter, recyclerView);
-        itemTouchHelper = new ItemTouchHelper(callback);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
         categoryViewModel =  ViewModelProviders.of(this).get(CategoryViewModel.class);
@@ -101,11 +84,31 @@ public class CategoryFragment extends Fragment {
     private void displayCategory(int position) {
         // TODO
         Log.i("category", "Displaying category: " + categoryViewModel.getCategoryList().getValue().get(position).getName());
+        Log.i("category", "Number: " + categoryViewModel.getExercisesByCategory(categoryViewModel.getCategoryList().getValue().get(position)));
     }
 
-    private void createAddExerciseDialog() {
-        // TODO
-        Log.i("category", "adding exercise");
+    private void createAddCategoryDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+        builder.setTitle("Add Category");
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View view = inflater.inflate(R.layout.category_add_dialog_content, null);
+        builder.setView(view);
+        final EditText nameInput = view.findViewById(R.id.addCategoryNameEditText);
+
+        builder.setPositiveButton("Add", (dialog, which) -> {
+            final String name = (nameInput.getText().toString().isEmpty() ?
+                    getString(R.string.add_category_name_default) :
+                    nameInput.getText().toString());
+
+            Log.i("blah", "|" + name + "|" + " : " + Integer.toString(name.length()));
+
+            categoryViewModel.addItem(new Category(null, name));
+
+            Snackbar.make(getView(), getString(R.string.add_category_confirm_snackbar, name), Snackbar.LENGTH_SHORT).show();
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+        builder.show();
     }
 
     private AdapterView.OnItemSelectedListener getSortSpinnerListener(String[] sortOptions) {
@@ -114,18 +117,34 @@ public class CategoryFragment extends Fragment {
             {
                 final String selectedItem = parent.getItemAtPosition(position).toString();
                 if(selectedItem.equals(sortOptions[0])) { // Default
-                    Log.i("Sort Exercise Selected", "Sorting by Default aka ID");
-                    Collections.sort(categoryViewModel.getExerciseList().getValue(), ((o1, o2) -> Integer.compare(o1.getId(), o2.getId())));
+                    Log.i("Sort Category Selected", "Sorting by Default aka ID");
+                    if(categoryViewModel.getCategoryList().getValue() != null) {
+                        Collections.sort(categoryViewModel.getCategoryList().getValue(), ((o1, o2) -> Integer.compare(o1.getId(), o2.getId())));
+                    }
                 } else if(selectedItem.equals(sortOptions[1])) { // Name
-                    Log.i("Sort Exercise Selected", "Sorting by Name");
-                    Collections.sort(categoryViewModel.getExerciseList().getValue(), (o1, o2) -> o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase()));
+                    Log.i("Sort Category Selected", "Sorting by Name");
+                    if(categoryViewModel.getCategoryList().getValue() != null) {
+                        Collections.sort(categoryViewModel.getCategoryList().getValue(), (o1, o2) -> o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase()));
+                    }
                 }
-                homeAdapter.notifyDataSetChanged();
+                categoryAdapter.notifyDataSetChanged();
             } // to close the onItemSelected
             public void onNothingSelected(AdapterView<?> parent)
             {
 
             }
         };
+    }
+
+    @Override
+    public void onPause() {
+        if (categoryAdapter != null) {
+            if (categoryAdapter.categoriesToRemove != null) {
+                for (Category category: categoryAdapter.categoriesToRemove){
+                    categoryViewModel.deleteCategory(category);
+                }
+            }
+        }
+        super.onPause();
     }
 }

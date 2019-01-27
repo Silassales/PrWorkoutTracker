@@ -4,18 +4,23 @@ import android.app.Application;
 import android.os.AsyncTask;
 
 import com.timothy.silas.prworkouttracker.Database.AppDatabase;
+import com.timothy.silas.prworkouttracker.Database.Category.Category;
 import com.timothy.silas.prworkouttracker.Database.Exercise.Exercise;
 
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 public class CategoryViewModel extends AndroidViewModel {
 
-    private final LiveData<List<Exercise>> exerciseList;
+    private final LiveData<List<Category>> categoryList;
 
     private AppDatabase appDatabase;
 
@@ -24,43 +29,38 @@ public class CategoryViewModel extends AndroidViewModel {
 
         appDatabase = AppDatabase.getAppDatabase(this.getApplication());
 
-        exerciseList = appDatabase.exerciseDao().getAll();
+        categoryList = appDatabase.categoryDao().getAll();
     }
 
-    public LiveData<List<Exercise>> getExerciseList() {
-        return exerciseList;
+    public LiveData<List<Category>> getCategoryList() {
+        return categoryList;
     }
 
-    public void updateWeight(Exercise exercise, Double newWeight) {
+    public List<Exercise> getExercisesByCategory(Category category) {
+        Future<List<Exercise>> exerciseList;
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        exerciseList = executor.submit(() -> appDatabase.exerciseDao().getByCategory(category.getId()));
+        try {
+            return exerciseList.get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void deleteCategory(Category category) {
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
-            appDatabase.exerciseDao().updateWeight(exercise.getId(), newWeight);
+            appDatabase.categoryDao().delete(category);
         });
     }
 
-    public void deleteExercise(Exercise exercise) {
+    public void addItem(Category category) {
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
-            appDatabase.exerciseDao().delete(exercise);
+            appDatabase.categoryDao().insert(category);
         });
     }
-
-    public void addItem(Exercise exercise) {
-        new insertAsyncTask(appDatabase).execute(exercise);
-    }
-
-    private static class insertAsyncTask extends AsyncTask<Exercise, Void, Void> {
-        private AppDatabase db;
-
-        insertAsyncTask(AppDatabase appDatabase) {
-            db = appDatabase;
-        }
-
-        @Override
-        protected Void doInBackground(final Exercise... params) {
-            db.exerciseDao().insert(params[0]);
-            return null;
-        }
-    }
-
 }

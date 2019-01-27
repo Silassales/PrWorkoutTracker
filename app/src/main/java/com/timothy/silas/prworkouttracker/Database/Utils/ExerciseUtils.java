@@ -6,7 +6,7 @@ import com.timothy.silas.prworkouttracker.Models.WtUnit;
 public class ExerciseUtils {
 
     public static Exercise createExercise(Integer id) {
-        Exercise exercise = new Exercise(id, "", 0.0, WtUnit.LB);
+        Exercise exercise = new Exercise(id, "", 0.0, WtUnit.LB, null);
         return exercise;
     }
 }

@@ -1,5 +1,8 @@
 package com.timothy.silas.prworkouttracker.Database.Exercise;
 
+import com.timothy.silas.prworkouttracker.Database.Category.Category;
+
+import java.util.Calendar;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
@@ -23,7 +26,7 @@ public interface ExerciseDao {
     Exercise getByName(String name);
 
     @Query("SELECT * FROM exercise where category_id = (:categoryId)")
-    void getByCategory(Integer categoryId);
+    List<Exercise> getByCategory(Integer categoryId);
 
     @Query("UPDATE exercise SET weight = (:newWeight) where id = (:id)")
     void updateWeight(Integer id, Double newWeight);
