@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -22,6 +23,8 @@ import com.timothy.silas.prworkouttracker.R;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
@@ -112,6 +115,19 @@ public class HomeFragment extends Fragment {
 
         return view;
     }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        // see the comment in CategoryFragment#displayCategory for context
+        Bundle args = getArguments();
+        if(args != null) {
+            final int categoryToSortBy = args.getInt(getString(R.string.category_id_arg_tag), R.integer.no_category_found_defualt_val);
+            if(categoryToSortBy != R.integer.no_category_found_defualt_val) {
+                homeAdapter.setCategoryToSortBy(categoryToSortBy);
+            }
+        }
+    }
+
 
     @Override
     public void onPause() {

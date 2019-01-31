@@ -27,8 +27,7 @@ public class HomeViewModel extends AndroidViewModel {
         exerciseList = appDatabase.exerciseDao().getAll();
     }
 
-    public LiveData<List<Exercise>> getExerciseList() {
-        return exerciseList;
+    public LiveData<List<Exercise>> getExerciseList() { return exerciseList;
     }
 
     public void updateWeight(Exercise exercise, Double newWeight) {

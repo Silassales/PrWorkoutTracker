@@ -19,6 +19,7 @@ import com.timothy.silas.prworkouttracker.Home.Helper.HomeItemTouchHelperViewHol
 import com.timothy.silas.prworkouttracker.R;
 
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,11 +30,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
     private final HomeClickListener listener;
     private List<Exercise> exerciseList;
     public List<Exercise> exercisesToRemove;
+    private Integer categoryToSortBy;
 
     public HomeAdapter(List<Exercise> exerciseList, HomeClickListener listener) {
         this.exerciseList = exerciseList;
         this.listener = listener;
         this.exercisesToRemove = new ArrayList<>();
+        this.categoryToSortBy = R.integer.no_category_found_defualt_val;
     }
 
     @Override
@@ -52,8 +55,21 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         holder.wtUnit.setText(exercise.getWeightUnit().toString());
     }
 
+    public void setCategoryToSortBy(Integer categoryToSortBy) {
+        this.categoryToSortBy = categoryToSortBy;
+    }
+
     public void addItems(List<Exercise> exercises) {
         Log.i("Home Adapter", "Added " + (exercises.size() - this.exerciseList.size()) + " new exercises from the db");
+        // see the comment in CategoryFragment#displayCategory for context
+        if(this.categoryToSortBy != R.integer.no_category_found_defualt_val) {
+            Exercise[] exercisesToSort = exercises.toArray(new Exercise[exercises.size()]); // to avoid concurrentModificationException
+            for(Exercise exercise : exercisesToSort) {
+                if(exercise.getCategoryId() != this.categoryToSortBy) {
+                    exercises.remove(exercise);
+                }
+            }
+        }
         this.exerciseList = exercises;
         notifyDataSetChanged();
     }

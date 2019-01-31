@@ -16,12 +16,14 @@ import com.google.android.material.snackbar.Snackbar;
 import com.timothy.silas.prworkouttracker.Category.Helper.CategorySimpleItemTouchHelperCallback;
 import com.timothy.silas.prworkouttracker.Database.Category.Category;
 import com.timothy.silas.prworkouttracker.Database.Exercise.Exercise;
+import com.timothy.silas.prworkouttracker.Home.HomeFragment;
 import com.timothy.silas.prworkouttracker.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -85,6 +87,29 @@ public class CategoryFragment extends Fragment {
         // TODO
         Log.i("category", "Displaying category: " + categoryViewModel.getCategoryList().getValue().get(position).getName());
         Log.i("category", "Number: " + categoryViewModel.getExercisesByCategory(categoryViewModel.getCategoryList().getValue().get(position)));
+
+        /*
+            The idea here is to:
+
+            transition to a HomeFragment with a argument containing the id of the category to show
+
+            The home fragment will then try to grab that arg:
+
+                - if the arg is null, then we are opening the home fragment from somewhere else -> just show
+                    all the exercises
+                - if the arg is found try to only show the exercises with that category id -> if that then
+                    shows zero exercises, leave a note for the user saying that there are no exercises in this
+                    category
+         */
+
+        Bundle args = new Bundle();
+        args.putInt(getString(R.string.category_id_arg_tag), categoryViewModel.getCategoryList().getValue().get(position).getId());
+        HomeFragment homeFragment = new HomeFragment();
+        homeFragment.setArguments(args);
+        if(homeFragment != null) {
+            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.content_frame, homeFragment).addToBackStack("tag").commit();
+        }
     }
 
     private void createAddCategoryDialog() {
