@@ -15,6 +15,9 @@ public interface CategoryDao {
     @Query("SELECT * FROM category")
     LiveData<List<Category>> getAll();
 
+    @Query("SELECT * FROM category")
+    List<Category> getAllBasic();
+
     @Query("SELECT * FROM category where (:name) = name")
     Category getByName(String name);
 

@@ -32,4 +32,5 @@
     <string name="remove_exercise_dialog_title">Are you sure you want to remove this exercise?</string>
     <string name="addCategoryNameHint">Category Name</string>
     <string name="category_id_arg_tag">CATEGORY_TO_SORT_BY</string>
+    <string name="exercise_page_category_title">Category:</string>
 </resources>

@@ -37,11 +37,9 @@ public class CategoryViewModel extends AndroidViewModel {
     }
 
     public List<Exercise> getExercisesByCategory(Category category) {
-        Future<List<Exercise>> exerciseList;
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        exerciseList = executor.submit(() -> appDatabase.exerciseDao().getByCategory(category.getId()));
         try {
-            return exerciseList.get();
+            return executor.submit(() -> appDatabase.exerciseDao().getByCategory(category.getId())).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

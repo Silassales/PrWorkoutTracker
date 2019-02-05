@@ -32,4 +32,5 @@
         android:layout_below="@+id/addExerciseNameEditText"
         android:layout_alignParentRight="true"
         />
+
 </RelativeLayout>
