@@ -31,6 +31,9 @@ public interface ExerciseDao {
     @Query("UPDATE exercise SET weight = (:newWeight) where id = (:id)")
     void updateWeight(Integer id, Double newWeight);
 
+    @Query("UPDATE exercise SET category_id = (:categoryId) where id = (:id)")
+    void changeCategory(Integer id, Integer categoryId);
+
     @Insert(onConflict = REPLACE)
     void insert(Exercise exercise);
 

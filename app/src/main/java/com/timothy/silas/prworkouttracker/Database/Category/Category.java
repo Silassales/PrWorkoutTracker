@@ -17,6 +17,8 @@ import androidx.room.TypeConverters;
 public class Category implements Serializable {
     private static final long serialVersionUID = -1L;
 
+    // TODO make category name unique
+
     @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo(name = "category_id")

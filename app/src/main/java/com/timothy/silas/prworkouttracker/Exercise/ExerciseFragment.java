@@ -6,10 +6,12 @@ import android.view.CollapsibleActionView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.timothy.silas.prworkouttracker.Database.AppDatabase;
 import com.timothy.silas.prworkouttracker.Database.Category.Category;
 import com.timothy.silas.prworkouttracker.Database.Exercise.Exercise;
@@ -65,10 +67,34 @@ public class ExerciseFragment extends Fragment {
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(arrayAdapter);
 
+
+        // TODO onItemSelected being called as soon as the view is show -> therefore sets the exercise to the
+        // first category on start every time, does the same sort of thing for sort spinners on the list pages
+
+        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long arg3)
+            {
+                final String selectedItem = parent.getItemAtPosition(position).toString();
+
+                // TODO find a better way to do all of this.......
+                final Category selectedCategory = listOfCategories.get(listOfCategoryNames.indexOf(selectedItem));
+                changeExercisesCategory(exercise, selectedCategory);
+
+                Snackbar.make(getView(), "Exercise: " + exercise.getName() + " now belongs to Category: " + selectedCategory.getName(), Snackbar.LENGTH_LONG).show();
+            }
+
+            public void onNothingSelected(AdapterView<?> arg0)
+            {
+                // TODO Auto-generated method stub
+            }
+        });
+
         return view;
     }
 
-    public List<Category> getCategories() {
+    private List<Category> getCategories() {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         try {
             return executor.submit(() -> appDatabase.categoryDao().getAllBasic()).get();
@@ -78,6 +104,13 @@ public class ExerciseFragment extends Fragment {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private void changeExercisesCategory(Exercise exercise, Category category) {
+        final Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            appDatabase.exerciseDao().changeCategory(exercise.getId(), category.getId());
+        });
     }
 
 
