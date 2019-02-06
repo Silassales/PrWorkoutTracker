@@ -67,22 +67,23 @@ public class ExerciseFragment extends Fragment {
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(arrayAdapter);
 
-
-        // TODO onItemSelected being called as soon as the view is show -> therefore sets the exercise to the
-        // first category on start every time, does the same sort of thing for sort spinners on the list pages
-
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
+
+            int check = 0;
+
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long arg3)
             {
-                final String selectedItem = parent.getItemAtPosition(position).toString();
+                if(++check > 1) { // set on item selected listener calls this once, so make sure this is the second time called.
+                    final String selectedItem = parent.getItemAtPosition(position).toString();
 
-                // TODO find a better way to do all of this.......
-                final Category selectedCategory = listOfCategories.get(listOfCategoryNames.indexOf(selectedItem));
-                changeExercisesCategory(exercise, selectedCategory);
+                    // TODO find a better way to do all of this.......
+                    final Category selectedCategory = listOfCategories.get(listOfCategoryNames.indexOf(selectedItem));
+                    changeExercisesCategory(exercise, selectedCategory);
 
-                Snackbar.make(getView(), "Exercise: " + exercise.getName() + " now belongs to Category: " + selectedCategory.getName(), Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(getView(), "Exercise: " + exercise.getName() + " now belongs to Category: " + selectedCategory.getName(), Snackbar.LENGTH_LONG).show();
+                }
             }
 
             public void onNothingSelected(AdapterView<?> arg0)
