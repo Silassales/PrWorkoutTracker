@@ -6,18 +6,18 @@
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_dumbbell"
             android:title="@string/nav_home_title" />
-        <item
-            android:id="@+id/nav_workouts"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/nav_workouts_title" />
+        <!--<item-->
+            <!--android:id="@+id/nav_workouts"-->
+            <!--android:icon="@drawable/ic_menu_gallery"-->
+            <!--android:title="@string/nav_workouts_title" />-->
         <item
             android:id="@+id/nav_categories"
             android:icon="@drawable/ic_view_list_black_24dp"
             android:title="@string/nav_categories_title" />
-        <item
-            android:id="@+id/nav_calendar"
-            android:icon="@drawable/baseline_calendar_today_24"
-            android:title="@string/nav_calendar_title" />
+        <!--<item-->
+            <!--android:id="@+id/nav_calendar"-->
+            <!--android:icon="@drawable/baseline_calendar_today_24"-->
+            <!--android:title="@string/nav_calendar_title" />-->
     </group>
 
 </menu>

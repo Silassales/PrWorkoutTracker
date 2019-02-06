@@ -197,7 +197,13 @@ public class HomeFragment extends Fragment {
 
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
+                // TODO add categories / workouts as a option for sorting
                     if(++check > 1) {
+                        if(homeViewModel.getExerciseList().getValue() == null) {
+                            // TODO notify the user
+                            return;
+                        }
+
                         final String selectedItem = parent.getItemAtPosition(position).toString();
                         if(selectedItem.equals(sortOptions[0])) { // Default
                             Log.i("Sort Exercise Selected", "Sorting by Default aka ID");

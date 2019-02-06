@@ -90,15 +90,15 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_home:
                 fragment = new HomeFragment();
                 break;
-            case R.id.nav_workouts:
-                fragment = new WorkoutFragment();
-                break;
+//            case R.id.nav_workouts:
+//                fragment = new WorkoutFragment();
+//                break;
             case R.id.nav_categories:
                 fragment = new CategoryFragment();
                 break;
-            case R.id.nav_calendar:
-                fragment = new CalendarFragment();
-                break;
+//            case R.id.nav_calendar:
+//                fragment = new CalendarFragment();
+//                break;
         }
 
         if (fragment != null) {
