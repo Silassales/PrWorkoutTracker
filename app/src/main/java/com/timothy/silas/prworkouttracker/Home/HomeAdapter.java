@@ -79,7 +79,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         final int adapterPosition = viewHolder.getAdapterPosition();
         final Exercise exerciseToRemove = exerciseList.get(adapterPosition);
 
-        Snackbar snackbar = Snackbar.make(recyclerView, "Exercise \"" + exerciseToRemove.getName() + "\" removed!", Snackbar.LENGTH_LONG)
+        // TODO confirm that we want the length for the remove snackbar to be infinite
+
+        Snackbar snackbar = Snackbar.make(recyclerView, "Exercise \"" + exerciseToRemove.getName() + "\" removed!", Snackbar.LENGTH_INDEFINITE)
                 .setAction("UNDO", view -> {
                     exerciseList.add(adapterPosition, exerciseToRemove);
                     notifyItemInserted(adapterPosition);
