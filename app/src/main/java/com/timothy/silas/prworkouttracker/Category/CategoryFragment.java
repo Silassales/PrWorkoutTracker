@@ -138,21 +138,24 @@ public class CategoryFragment extends Fragment {
 
     private AdapterView.OnItemSelectedListener getSortSpinnerListener(String[] sortOptions) {
         return new AdapterView.OnItemSelectedListener() {
+            int check = 0;
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                final String selectedItem = parent.getItemAtPosition(position).toString();
-                if(selectedItem.equals(sortOptions[0])) { // Default
-                    Log.i("Sort Category Selected", "Sorting by Default aka ID");
-                    if(categoryViewModel.getCategoryList().getValue() != null) {
-                        Collections.sort(categoryViewModel.getCategoryList().getValue(), ((o1, o2) -> Integer.compare(o1.getId(), o2.getId())));
+                if(++check > 1) {
+                    final String selectedItem = parent.getItemAtPosition(position).toString();
+                    if(selectedItem.equals(sortOptions[0])) { // Default
+                        Log.i("Sort Category Selected", "Sorting by Default aka ID");
+                        if(categoryViewModel.getCategoryList().getValue() != null) {
+                            Collections.sort(categoryViewModel.getCategoryList().getValue(), ((o1, o2) -> Integer.compare(o1.getId(), o2.getId())));
+                        }
+                    } else if(selectedItem.equals(sortOptions[1])) { // Name
+                        Log.i("Sort Category Selected", "Sorting by Name");
+                        if(categoryViewModel.getCategoryList().getValue() != null) {
+                            Collections.sort(categoryViewModel.getCategoryList().getValue(), (o1, o2) -> o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase()));
+                        }
                     }
-                } else if(selectedItem.equals(sortOptions[1])) { // Name
-                    Log.i("Sort Category Selected", "Sorting by Name");
-                    if(categoryViewModel.getCategoryList().getValue() != null) {
-                        Collections.sort(categoryViewModel.getCategoryList().getValue(), (o1, o2) -> o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase()));
-                    }
+                    categoryAdapter.notifyDataSetChanged();
                 }
-                categoryAdapter.notifyDataSetChanged();
             } // to close the onItemSelected
             public void onNothingSelected(AdapterView<?> parent)
             {

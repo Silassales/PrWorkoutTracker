@@ -192,23 +192,28 @@ public class HomeFragment extends Fragment {
 
     private AdapterView.OnItemSelectedListener getSortSpinnerListener(String[] sortOptions) {
         return new AdapterView.OnItemSelectedListener() {
+
+            int check = 0;
+
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                final String selectedItem = parent.getItemAtPosition(position).toString();
-                if(selectedItem.equals(sortOptions[0])) { // Default
-                    Log.i("Sort Exercise Selected", "Sorting by Default aka ID");
-                    Collections.sort(homeViewModel.getExerciseList().getValue(), ((o1, o2) -> Integer.compare(o1.getId(), o2.getId())));
-                } else if(selectedItem.equals(sortOptions[1])) { // Name
-                    Log.i("Sort Exercise Selected", "Sorting by Name");
-                    Collections.sort(homeViewModel.getExerciseList().getValue(), (o1, o2) -> o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase()));
-                } else if(selectedItem.equals(sortOptions[2])) { // Weight
-                    Log.i("Sort Exercise Selected", "Sorting by Weight");
-                    Collections.sort(homeViewModel.getExerciseList().getValue(), (o1, o2) -> Double.compare(o2.getWeight(), o1.getWeight()));
-                } else if(selectedItem.equals(sortOptions[3])) { // Weight Unit
-                    Log.i("Sort Exercise Selected", "Sorting by Weight Unit");
-                    Collections.sort(homeViewModel.getExerciseList().getValue(), (o1, o2) -> o1.getWeightUnit().toString().compareTo(o2.getWeightUnit().toString()));
-                }
-                homeAdapter.notifyDataSetChanged();
+                    if(++check > 1) {
+                        final String selectedItem = parent.getItemAtPosition(position).toString();
+                        if(selectedItem.equals(sortOptions[0])) { // Default
+                            Log.i("Sort Exercise Selected", "Sorting by Default aka ID");
+                            Collections.sort(homeViewModel.getExerciseList().getValue(), ((o1, o2) -> Integer.compare(o1.getId(), o2.getId())));
+                        } else if(selectedItem.equals(sortOptions[1])) { // Name
+                            Log.i("Sort Exercise Selected", "Sorting by Name");
+                            Collections.sort(homeViewModel.getExerciseList().getValue(), (o1, o2) -> o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase()));
+                        } else if(selectedItem.equals(sortOptions[2])) { // Weight
+                            Log.i("Sort Exercise Selected", "Sorting by Weight");
+                            Collections.sort(homeViewModel.getExerciseList().getValue(), (o1, o2) -> Double.compare(o2.getWeight(), o1.getWeight()));
+                        } else if(selectedItem.equals(sortOptions[3])) { // Weight Unit
+                            Log.i("Sort Exercise Selected", "Sorting by Weight Unit");
+                            Collections.sort(homeViewModel.getExerciseList().getValue(), (o1, o2) -> o1.getWeightUnit().toString().compareTo(o2.getWeightUnit().toString()));
+                        }
+                        homeAdapter.notifyDataSetChanged();
+                    }
             } // to close the onItemSelected
             public void onNothingSelected(AdapterView<?> parent)
             {
