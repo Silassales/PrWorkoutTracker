@@ -37,7 +37,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
-    private HomeAdapter homeAdapter;
+    protected HomeAdapter homeAdapter;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -48,6 +48,12 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.home_fragment, container, false);
 
+        setUpStandardView(view);
+
+        return view;
+    }
+
+    protected void setUpStandardView(View view) {
         sortSpinner = view.findViewById(R.id.exercise_sort_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.exerciseSortArray, R.layout.sort_spinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -112,20 +118,6 @@ public class HomeFragment extends Fragment {
 
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         homeViewModel.getExerciseList().observe(HomeFragment.this, exercises -> homeAdapter.addItems(exercises));
-
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        // see the comment in CategoryFragment#displayCategory for context
-        Bundle args = getArguments();
-        if(args != null) {
-            final int categoryToSortBy = args.getInt(getString(R.string.category_id_arg_tag), R.integer.no_category_found_defualt_val);
-            if(categoryToSortBy != R.integer.no_category_found_defualt_val) {
-                homeAdapter.setCategoryToSortBy(categoryToSortBy);
-            }
-        }
     }
 
 

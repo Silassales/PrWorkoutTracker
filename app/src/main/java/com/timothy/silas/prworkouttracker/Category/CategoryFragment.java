@@ -15,8 +15,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.timothy.silas.prworkouttracker.Category.Helper.CategorySimpleItemTouchHelperCallback;
 import com.timothy.silas.prworkouttracker.Database.Category.Category;
-import com.timothy.silas.prworkouttracker.Database.Exercise.Exercise;
-import com.timothy.silas.prworkouttracker.Home.HomeFragment;
+import com.timothy.silas.prworkouttracker.Home.Category.HomeCategoryFragment;
 import com.timothy.silas.prworkouttracker.R;
 
 import java.util.ArrayList;
@@ -84,9 +83,10 @@ public class CategoryFragment extends Fragment {
     }
 
     private void displayCategory(int position) {
+        Category categoryToSortby = categoryViewModel.getCategoryList().getValue().get(position);
         // TODO
-        Log.i("category", "Displaying category: " + categoryViewModel.getCategoryList().getValue().get(position).getName());
-        Log.i("category", "Number: " + categoryViewModel.getExercisesByCategory(categoryViewModel.getCategoryList().getValue().get(position)));
+        Log.i("category", "Displaying category: " + categoryToSortby.getName());
+        Log.i("category", "Number: " + categoryViewModel.getExercisesByCategory(categoryToSortby));
 
         /*
             The idea here is to:
@@ -103,12 +103,17 @@ public class CategoryFragment extends Fragment {
          */
 
         Bundle args = new Bundle();
-        args.putInt(getString(R.string.category_id_arg_tag), categoryViewModel.getCategoryList().getValue().get(position).getId());
-        HomeFragment homeFragment = new HomeFragment();
-        homeFragment.setArguments(args);
-        if(homeFragment != null) {
+        args.putInt(getString(R.string.category_id_arg_tag), categoryToSortby.getId());
+
+        // also going to put the name so that we can display to the user what category we are displaying without having to do a
+        // table lookup
+        args.putString(getString(R.string.category_name_arg_tab), categoryToSortby.getName());
+
+        HomeCategoryFragment homeCategoryFragment = new HomeCategoryFragment();
+        homeCategoryFragment.setArguments(args);
+        if(homeCategoryFragment != null) {
             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.content_frame, homeFragment).addToBackStack("tag").commit();
+            ft.replace(R.id.content_frame, homeCategoryFragment).addToBackStack("tag").commit();
         }
     }
 
