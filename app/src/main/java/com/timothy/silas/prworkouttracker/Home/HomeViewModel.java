@@ -4,10 +4,13 @@ import android.app.Application;
 import android.os.AsyncTask;
 
 import com.timothy.silas.prworkouttracker.Database.AppDatabase;
+import com.timothy.silas.prworkouttracker.Database.Category.Category;
 import com.timothy.silas.prworkouttracker.Database.Exercise.Exercise;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import androidx.lifecycle.AndroidViewModel;
@@ -42,6 +45,18 @@ public class HomeViewModel extends AndroidViewModel {
         executor.execute(() -> {
             appDatabase.exerciseDao().delete(exercise);
         });
+    }
+
+    public List<Category> getCategories() {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        try {
+            return executor.submit(() -> appDatabase.categoryDao().getAllBasic()).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void addItem(Exercise exercise) {

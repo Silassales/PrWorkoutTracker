@@ -36,4 +36,6 @@
     <string name="exercise_category_label_default_text">Default Category</string>
     <string name="exercise_category_label_prefix">Displaying Category:</string>
     <string name="category_name_arg_tab">CATEGORY_NAME_TO_SORT_BY</string>
+    <string name="add_exercise_category_textview">Category:</string>
+    <string name="add_exercise_category_no_category_selected">No Category</string>
 </resources>

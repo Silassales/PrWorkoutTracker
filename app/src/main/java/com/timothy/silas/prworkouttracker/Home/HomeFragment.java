@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.timothy.silas.prworkouttracker.Database.Category.Category;
 import com.timothy.silas.prworkouttracker.Database.Exercise.Exercise;
 import com.timothy.silas.prworkouttracker.Database.Utils.WtUnitConverter;
 import com.timothy.silas.prworkouttracker.Exercise.ExerciseFragment;
@@ -22,6 +23,8 @@ import com.timothy.silas.prworkouttracker.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -162,6 +165,24 @@ public class HomeFragment extends Fragment {
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unitSpinner.setAdapter(arrayAdapter);
 
+        final Spinner categorySpinner = view.findViewById(R.id.addExerciseCategorySpinner);
+        List<Category> listOfCategories = homeViewModel.getCategories();
+        ArrayList<String> listOfCategoryNames = new ArrayList<>();
+
+        if(listOfCategories != null) {
+            // TODO figure out how to properly error from this for the user
+
+            // TODO think this through better
+            listOfCategoryNames.add(getString(R.string.add_exercise_category_no_category_selected)); // so that the user can have the option to select adding a exercise without a category
+            for(Category category : listOfCategories) {
+                listOfCategoryNames.add(category.getName());
+            }
+
+            ArrayAdapter<String> categoryArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, listOfCategoryNames);
+            categoryArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            categorySpinner.setAdapter(categoryArrayAdapter);
+        }
+
         builder.setPositiveButton("Add", (dialog, which) -> {
             final String name = (nameInput.getText().toString().isEmpty() ?
                     getString(R.string.add_exercise_name_default) :
@@ -170,11 +191,16 @@ public class HomeFragment extends Fragment {
                     Double.parseDouble(getString(R.string.add_exercise_weight_default)) :
                     Double.parseDouble(weightInput.getText().toString()));
 
+            Integer selectedCategoryId = null;
+            if (!categorySpinner.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.add_exercise_category_no_category_selected))) {
+                selectedCategoryId = listOfCategories.get(listOfCategoryNames.indexOf(categorySpinner.getSelectedItem()) - 1).getId(); // TODO this code is turning into poop
+            }
+
             homeViewModel.addItem(new Exercise(null,
                     name,
                     weight,
                     WtUnitConverter.toWtUnit(unitSpinner.getSelectedItem().toString()),
-                    null));
+                    selectedCategoryId));
 
             Snackbar.make(getView(), getString(R.string.add_exercise_confirm_snackbar, name), Snackbar.LENGTH_SHORT).show();
         });
