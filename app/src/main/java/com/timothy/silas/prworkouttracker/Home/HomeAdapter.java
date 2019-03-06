@@ -55,6 +55,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         holder.weight.setText(exercise.getWeight().toString());
         holder.wtUnit.setText(exercise.getWeightUnit().toString());
 
+        // TODO make these images nicer and much much smaller -> look into background threads if scrolling is still
+        // TODO laggy after making the images smaller -> or bitmaps or so on
+        // TODO cut this stuff into smaller methods
         /* set the barbell preview based on the exercise weight */
         // first do a nice clear in case there is already weight on there:
         holder.slot1.setImageResource(R.drawable.w_empty);
