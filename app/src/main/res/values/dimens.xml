@@ -15,4 +15,9 @@
     <dimen name="exercise_list_name_text_size">16sp</dimen>
     <dimen name="exercise_sort_spinner_title_padding">3dp</dimen>
     <dimen name="sort_spinner_text_size">16sp</dimen>
+    <dimen name="recycler_view_item_min_height">150dp</dimen>
+    <dimen name="barbell_image_height">115dp</dimen>
+    <dimen name="barbell_slot_width">15dp</dimen>
+    <dimen name="barbell_slot_margin">4dp</dimen>
+    <dimen name="barbell_slot1_margin">18dp</dimen>
 </resources>

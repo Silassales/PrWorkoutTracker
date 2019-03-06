@@ -10,6 +10,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -53,6 +54,75 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         holder.name.setText(exercise.getName());
         holder.weight.setText(exercise.getWeight().toString());
         holder.wtUnit.setText(exercise.getWeightUnit().toString());
+
+        /* set the barbell preview based on the exercise weight */
+        // first do a nice clear in case there is already weight on there:
+        holder.slot1.setImageResource(R.drawable.w_empty);
+        holder.slot2.setImageResource(R.drawable.w_empty);
+        holder.slot3.setImageResource(R.drawable.w_empty);
+        holder.slot4.setImageResource(R.drawable.w_empty);
+        holder.slot5.setImageResource(R.drawable.w_empty);
+
+        Double weight = exercise.getWeight();
+        weight -= 20; // for the bar
+        weight /= 2; // we just show them half the bar
+        /*
+            For example a 60kg bench ->
+
+            60 - 20 for the bar = 40
+            40 / 2 = 20 -> we show one 20kg plate on the display
+         */
+
+        // TODO do this for pounds as well
+        int resourceIdToSet;
+        int currentSlot = 1;
+
+        Log.i("testing", "starting setting loop with weight: " + weight);
+        while(weight > 0) {
+            if(weight >= 20) {
+                resourceIdToSet = R.drawable.w_20kg_blue;
+                weight -= 20;
+            } else if (weight >= 10) {
+                resourceIdToSet = R.drawable.w_10kg_green;
+                weight -= 10;
+            } else if(weight >= 5) {
+                resourceIdToSet = R.drawable.w_5kg_yellow;
+                weight -= 5;
+            } else if(weight >= 2.5) {
+                resourceIdToSet = R.drawable.w_2_5kg;
+                weight -= 2.5;
+            } else if(weight >= 1.25) {
+                resourceIdToSet = R.drawable.w_1_25kg;
+                weight -= 1.25;
+            } else {
+                break; // TODO display some additional weight needed message to the user
+            }
+
+            Log.i("testing", "decided that we needed id " + resourceIdToSet + " and we now have left over weight: " + weight);
+
+            switch (currentSlot) {
+                case 1 :
+                    holder.slot1.setImageResource(resourceIdToSet);
+                    break;
+                case 2:
+                    holder.slot2.setImageResource(resourceIdToSet);
+                    break;
+                case 3:
+                    holder.slot3.setImageResource(resourceIdToSet);
+                    break;
+                case 4:
+                    holder.slot4.setImageResource(resourceIdToSet);
+                    break;
+                case 5:
+                    holder.slot5.setImageResource(resourceIdToSet);
+                    break;
+                default:
+                    // set to a negative number so that we kick out of the loop
+                    weight = -1.0; // TODO display some info about additional weight being needed
+                    break;
+            }
+            currentSlot++;
+        }
     }
 
     public void setCategoryToSortBy(Integer categoryToSortBy) {
@@ -100,6 +170,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         public EditText weight;
         public TextView wtUnit;
         public Button addButton;
+
+        public ImageView slot1;
+        public ImageView slot2;
+        public ImageView slot3;
+        public ImageView slot4;
+        public ImageView slot5;
+
         private WeakReference<HomeClickListener> listenerRef;
 
         public MyViewHolder(View view, HomeClickListener listener) {
@@ -110,6 +187,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
             weight = view.findViewById(R.id.exercise_weight_edittext);
             wtUnit = view.findViewById(R.id.exercise_wt_unit_textview);
             addButton = view.findViewById(R.id.exercise_add_weight_button);
+
+            slot1 = view.findViewById(R.id.barbell_slot1_iv);
+            slot2 = view.findViewById(R.id.barbell_slot2_iv);
+            slot3 = view.findViewById(R.id.barbell_slot3_iv);
+            slot4 = view.findViewById(R.id.barbell_slot4_iv);
+            slot5 = view.findViewById(R.id.barbell_slot5_iv);
 
             view.setOnClickListener(this);
             name.setOnClickListener(this);

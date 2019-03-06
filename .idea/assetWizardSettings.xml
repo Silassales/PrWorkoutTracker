@@ -34,8 +34,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_temp_background" />
-                            <entry key="sourceFile" value="$USER_HOME$/Downloads/temp-background.svg" />
+                            <entry key="outputName" value="ic_1_25kg" />
+                            <entry key="sourceFile" value="$PROJECT_DIR$/../Icons/1-25kg.svg" />
                           </map>
                         </option>
                       </PersistentState>

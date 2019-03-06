@@ -75,6 +75,7 @@ public class ExerciseFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long arg3)
             {
+                // TODO currently there is a bug where you can not choose to change to the category that is a the top of the list at the start
                 if(++check > 1) { // set on item selected listener calls this once, so make sure this is the second time called.
                     final String selectedItem = parent.getItemAtPosition(position).toString();
 
