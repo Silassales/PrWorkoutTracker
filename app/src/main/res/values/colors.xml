@@ -17,5 +17,12 @@
     <color name="colorOnSecondaryLight">#000000</color>
 
     <color name="weight_20kg">#1c26c9</color>
+    <color name="weight_10kg">#1be316</color>
+    <color name="weight_5kg">#e8ff00</color>
+    <color name="weight_2_5kg">#A0A0A0</color>
+    <color name="weight_1_25kg">#A0A0A0</color>
     <color name="weight_barbell">#000000</color>
+
+    <color name="listBackground">#616161</color>
+
 </resources>

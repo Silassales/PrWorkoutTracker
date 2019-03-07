@@ -46,7 +46,6 @@ public class CategoryFragment extends Fragment {
         sortSpinner.setOnItemSelectedListener(getSortSpinnerListener(getResources().getStringArray(R.array.categorySortArray)));
 
         RecyclerView recyclerView = view.findViewById(R.id.category_list_view);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         RecyclerView.LayoutManager recyclerManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(recyclerManager);
 

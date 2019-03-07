@@ -87,22 +87,23 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
             }
         }
 
+        // TODO add some bounds so that we dont try to render 20000 kg and have a nice little crash
         while(weight > 0) {
             // first determine the icon we need to use
             if(weight >= 20) {
                 resourceIdToSet = R.drawable.ic_20kg;
                 weight -= 20;
             } else if (weight >= 10) {
-                resourceIdToSet = R.drawable.ic_20kg;
+                resourceIdToSet = R.drawable.ic_10kg;
                 weight -= 10;
             } else if(weight >= 5) {
-                resourceIdToSet = R.drawable.ic_20kg;
+                resourceIdToSet = R.drawable.ic_5kg;
                 weight -= 5;
             } else if(weight >= 2.5) {
-                resourceIdToSet = R.drawable.ic_20kg;
+                resourceIdToSet = R.drawable.ic_2_5kg;
                 weight -= 2.5;
             } else if(weight >= 1.25) {
-                resourceIdToSet = R.drawable.ic_20kg;
+                resourceIdToSet = R.drawable.ic_1_25kg;
                 weight -= 1.25;
             } else {
                 break; // TODO display some additional weight needed message to the user

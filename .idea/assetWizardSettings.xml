@@ -35,10 +35,10 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="height" value="115" />
-                            <entry key="outputName" value="ic_testingevensmallerkg" />
+                            <entry key="outputName" value="ic_1_25kg" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="$PROJECT_DIR$/../Icons/testingEvenSmallerKG.svg" />
-                            <entry key="width" value="4" />
+                            <entry key="sourceFile" value="$PROJECT_DIR$/../Icons/1-25kg.svg" />
+                            <entry key="width" value="7" />
                           </map>
                         </option>
                       </PersistentState>

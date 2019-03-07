@@ -28,6 +28,7 @@ import java.util.Optional;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
@@ -62,9 +63,7 @@ public class HomeFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sortSpinner.setAdapter(adapter);
         sortSpinner.setOnItemSelectedListener(getSortSpinnerListener(getResources().getStringArray(R.array.exerciseSortArray)));
-
         mRecyclerView = view.findViewById(R.id.home_excercise_list);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         homeAdapter = new HomeAdapter(new ArrayList<>(), new HomeClickListener() {
