@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/relativeLayout"
+    android:id="@+id/exercise_list_constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
@@ -60,7 +60,7 @@
 
     <ImageView
         android:id="@+id/barbell_iv"
-        android:layout_width="111dp"
+        android:layout_width="@dimen/barbell_image_width"
         android:layout_height="@dimen/barbell_image_height"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
@@ -68,61 +68,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/barbell" />
-
-    <ImageView
-        android:id="@+id/barbell_slot1_iv"
-        android:layout_width="@dimen/barbell_slot_width"
-        android:layout_height="@dimen/barbell_image_height"
-        android:layout_marginEnd="@dimen/barbell_slot1_margin"
-        app:layout_constraintBottom_toBottomOf="@+id/barbell_iv"
-        app:layout_constraintEnd_toEndOf="@+id/barbell_iv"
-        app:layout_constraintTop_toTopOf="@+id/barbell_iv"
-        app:layout_constraintVertical_bias="0.538"
-        app:srcCompat="@drawable/w_empty" />
-
-    <ImageView
-        android:id="@+id/barbell_slot2_iv"
-        android:layout_width="@dimen/barbell_slot_width"
-        android:layout_height="@dimen/barbell_image_height"
-        android:layout_marginEnd="@dimen/barbell_slot_margin"
-        app:layout_constraintBottom_toBottomOf="@+id/barbell_iv"
-        app:layout_constraintEnd_toStartOf="@+id/barbell_slot1_iv"
-        app:layout_constraintTop_toTopOf="@+id/barbell_iv"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/w_empty" />
-
-    <ImageView
-        android:id="@+id/barbell_slot3_iv"
-        android:layout_width="@dimen/barbell_slot_width"
-        android:layout_height="@dimen/barbell_image_height"
-        android:layout_marginEnd="@dimen/barbell_slot_margin"
-        app:layout_constraintBottom_toBottomOf="@+id/barbell_iv"
-        app:layout_constraintEnd_toStartOf="@+id/barbell_slot2_iv"
-        app:layout_constraintTop_toTopOf="@+id/barbell_iv"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/w_empty" />
-
-    <ImageView
-        android:id="@+id/barbell_slot4_iv"
-        android:layout_width="@dimen/barbell_slot_width"
-        android:layout_height="@dimen/barbell_image_height"
-        android:layout_marginEnd="@dimen/barbell_slot_margin"
-        app:layout_constraintBottom_toBottomOf="@+id/barbell_iv"
-        app:layout_constraintEnd_toStartOf="@+id/barbell_slot3_iv"
-        app:layout_constraintTop_toTopOf="@+id/barbell_iv"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/w_empty" />
-
-    <ImageView
-        android:id="@+id/barbell_slot5_iv"
-        android:layout_width="@dimen/barbell_slot_width"
-        android:layout_height="@dimen/barbell_image_height"
-        android:layout_marginEnd="@dimen/barbell_slot_margin"
-        app:layout_constraintBottom_toBottomOf="@+id/barbell_iv"
-        app:layout_constraintEnd_toStartOf="@+id/barbell_slot4_iv"
-        app:layout_constraintTop_toTopOf="@+id/barbell_iv"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/w_empty" />
+        app:srcCompat="@drawable/ic_barbell" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

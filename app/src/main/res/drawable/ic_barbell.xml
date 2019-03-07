@@ -1,0 +1,12 @@
+<vector android:height="115dp" android:viewportHeight="30.42708"
+    android:viewportWidth="30.427086" android:width="115dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillAlpha="1" android:fillColor="@color/weight_barbell"
+        android:pathData="M0.7212,11.9062L27.06,11.9062A0.7212,0.7212 0,0 1,27.7813 12.6275L27.7813,17.7996A0.7212,0.7212 0,0 1,27.06 18.5208L0.7212,18.5208A0.7212,0.7212 0,0 1,0 17.7996L0,12.6275A0.7212,0.7212 0,0 1,0.7212 11.9062z"
+        android:strokeColor="#00000000" android:strokeWidth="0.11539518"/>
+    <path android:fillAlpha="1" android:fillColor="@color/weight_barbell"
+        android:pathData="M25.5365,7.9375L28.7031,7.9375A0.4011,0.4011 0,0 1,29.1042 8.3386L29.1042,22.0884A0.4011,0.4011 0,0 1,28.7031 22.4896L25.5365,22.4896A0.4011,0.4011 0,0 1,25.1354 22.0884L25.1354,8.3386A0.4011,0.4011 0,0 1,25.5365 7.9375z"
+        android:strokeColor="#00000000" android:strokeWidth="0.32404706"/>
+    <path android:fillAlpha="1" android:fillColor="@color/weight_barbell"
+        android:pathData="M29.1042,13.2291h1.3229v3.9688h-1.3229z"
+        android:strokeColor="#00000000" android:strokeWidth="0.32404718"/>
+</vector>

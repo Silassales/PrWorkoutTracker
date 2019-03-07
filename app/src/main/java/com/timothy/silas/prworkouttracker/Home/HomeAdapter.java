@@ -24,6 +24,9 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> implements HomeItemTouchHelperAdapter {
@@ -55,16 +58,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         holder.weight.setText(exercise.getWeight().toString());
         holder.wtUnit.setText(exercise.getWeightUnit().toString());
 
-        // TODO make these images nicer and much much smaller -> look into background threads if scrolling is still
-        // TODO laggy after making the images smaller -> or bitmaps or so on
         // TODO cut this stuff into smaller methods
         /* set the barbell preview based on the exercise weight */
-        // first do a nice clear in case there is already weight on there:
-        holder.slot1.setImageResource(R.drawable.w_empty);
-        holder.slot2.setImageResource(R.drawable.w_empty);
-        holder.slot3.setImageResource(R.drawable.w_empty);
-        holder.slot4.setImageResource(R.drawable.w_empty);
-        holder.slot5.setImageResource(R.drawable.w_empty);
 
         Double weight = exercise.getWeight();
         weight -= 20; // for the bar
@@ -78,53 +73,80 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
 
         // TODO do this for pounds as well
         int resourceIdToSet;
-        int currentSlot = 1;
+        int previousSlotId;
+        int slotId = 0;
+        boolean firstSlotEmpty = true;
 
-        Log.i("testing", "starting setting loop with weight: " + weight);
+        ConstraintLayout constraintLayout = holder.itemView.findViewById(R.id.exercise_list_constraintLayout);
+        ImageView barbellImageView = holder.itemView.findViewById(R.id.barbell_iv);
+
+        // first check to see if we have any weights already on, and if so take them offfff (clean up your weights people jeez)
+        if(!holder.slotIds.isEmpty()) {
+            for(int i : holder.slotIds) {
+                constraintLayout.removeView(holder.itemView.findViewById(i));
+            }
+        }
+
         while(weight > 0) {
+            // first determine the icon we need to use
             if(weight >= 20) {
-                resourceIdToSet = R.drawable.w_20kg_blue;
+                resourceIdToSet = R.drawable.ic_20kg;
                 weight -= 20;
             } else if (weight >= 10) {
-                resourceIdToSet = R.drawable.w_10kg_green;
+                resourceIdToSet = R.drawable.ic_20kg;
                 weight -= 10;
             } else if(weight >= 5) {
-                resourceIdToSet = R.drawable.w_5kg_yellow;
+                resourceIdToSet = R.drawable.ic_20kg;
                 weight -= 5;
             } else if(weight >= 2.5) {
-                resourceIdToSet = R.drawable.w_2_5kg;
+                resourceIdToSet = R.drawable.ic_20kg;
                 weight -= 2.5;
             } else if(weight >= 1.25) {
-                resourceIdToSet = R.drawable.w_1_25kg;
+                resourceIdToSet = R.drawable.ic_20kg;
                 weight -= 1.25;
             } else {
                 break; // TODO display some additional weight needed message to the user
             }
 
-            Log.i("testing", "decided that we needed id " + resourceIdToSet + " and we now have left over weight: " + weight);
+            // next generate a new image view for us to display
+            ImageView imageView = new ImageView(holder.itemView.getContext());
 
-            switch (currentSlot) {
-                case 1 :
-                    holder.slot1.setImageResource(resourceIdToSet);
-                    break;
-                case 2:
-                    holder.slot2.setImageResource(resourceIdToSet);
-                    break;
-                case 3:
-                    holder.slot3.setImageResource(resourceIdToSet);
-                    break;
-                case 4:
-                    holder.slot4.setImageResource(resourceIdToSet);
-                    break;
-                case 5:
-                    holder.slot5.setImageResource(resourceIdToSet);
-                    break;
-                default:
-                    // set to a negative number so that we kick out of the loop
-                    weight = -1.0; // TODO display some info about additional weight being needed
-                    break;
+            // generate and store a new slot id so that if we need to display another weight to the right
+            // we can set up the constraints correctly, also add all slot ids to an arraylist so that we
+            // can erase all previous images on a weight change
+            previousSlotId = slotId;
+            slotId = View.generateViewId(); // named as such because we use as such down below
+            holder.slotIds.add(slotId);
+            imageView.setId(slotId);
+
+            // setup our layout width and height params
+            imageView.setLayoutParams(new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    Math.round(holder.itemView.getContext().getResources().getDimension(R.dimen.barbell_image_height))));
+
+            imageView.setImageResource(resourceIdToSet);
+            constraintLayout.addView(imageView);
+
+            // time for the fun constraints..
+            ConstraintSet constraintSet = new ConstraintSet();
+            constraintSet.clone(constraintLayout);
+
+            // connect our new image view to the top and bottom of the barbell
+            constraintSet.connect(imageView.getId(), ConstraintSet.BOTTOM, barbellImageView.getId(), ConstraintSet.BOTTOM);
+            constraintSet.connect(imageView.getId(), ConstraintSet.TOP, barbellImageView.getId(), ConstraintSet.TOP);
+
+            // if the first slot is empty we need a larger margin, and to connect to the barbell not the plate in front
+            if(firstSlotEmpty) {
+                int margin = Math.round(holder.itemView.getContext().getResources().getDimension(R.dimen.barbell_first_slot_margin));
+                constraintSet.connect(imageView.getId(), ConstraintSet.END, barbellImageView.getId(), ConstraintSet.END, margin);
+                firstSlotEmpty = false;
+            } else {
+                int margin = Math.round(holder.itemView.getContext().getResources().getDimension(R.dimen.barbell_slot_margin));
+                constraintSet.connect(imageView.getId(), ConstraintSet.END, previousSlotId, ConstraintSet.START, margin);
             }
-            currentSlot++;
+
+            // apply and pray to the lord that everything is connected properly
+            constraintSet.applyTo(constraintLayout);
         }
     }
 
@@ -174,11 +196,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         public TextView wtUnit;
         public Button addButton;
 
-        public ImageView slot1;
-        public ImageView slot2;
-        public ImageView slot3;
-        public ImageView slot4;
-        public ImageView slot5;
+        public ArrayList<Integer> slotIds = new ArrayList<>();
 
         private WeakReference<HomeClickListener> listenerRef;
 
@@ -190,12 +208,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
             weight = view.findViewById(R.id.exercise_weight_edittext);
             wtUnit = view.findViewById(R.id.exercise_wt_unit_textview);
             addButton = view.findViewById(R.id.exercise_add_weight_button);
-
-            slot1 = view.findViewById(R.id.barbell_slot1_iv);
-            slot2 = view.findViewById(R.id.barbell_slot2_iv);
-            slot3 = view.findViewById(R.id.barbell_slot3_iv);
-            slot4 = view.findViewById(R.id.barbell_slot4_iv);
-            slot5 = view.findViewById(R.id.barbell_slot5_iv);
 
             view.setOnClickListener(this);
             name.setOnClickListener(this);

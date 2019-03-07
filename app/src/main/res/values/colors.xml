@@ -15,4 +15,7 @@
     <color name="colorOnSecondary">#000000</color>
     <color name="colorOnSecondaryDark">#000000</color>
     <color name="colorOnSecondaryLight">#000000</color>
+
+    <color name="weight_20kg">#1c26c9</color>
+    <color name="weight_barbell">#000000</color>
 </resources>
