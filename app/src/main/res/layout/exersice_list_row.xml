@@ -9,64 +9,51 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/exercise_list_constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
-        android:minHeight="@dimen/recycler_view_item_min_height"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/row_padding_vertical"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingBottom="@dimen/row_padding_vertical">
+        android:padding="@dimen/exercise_list_padding"
+        android:minHeight="@dimen/exercise_list_item_min_height"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/exercise_name_textview"
             android:layout_width="@dimen/excersice_list_name_width"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:padding="@dimen/excersice_list_item_padding"
+            android:layout_height="@dimen/default_button_size"
+            android:layout_margin="@dimen/exercise_list_margin"
             android:textSize="@dimen/exercise_list_name_text_size"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:gravity="center_vertical|left"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.142" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/exercise_weight_edittext"
-            android:layout_width="@dimen/excersice_list_weight_width"
-            android:layout_height="@dimen/excersice_list_height"
-            android:layout_marginStart="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/default_button_size"
+            android:layout_margin="@dimen/exercise_list_margin"
             android:imeOptions="actionDone"
             android:inputType="numberDecimal"
-            android:padding="@dimen/excersice_list_item_padding"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/exercise_name_textview"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/exercise_wt_unit_textview"
-            android:layout_width="@dimen/excersice_list_wt_unit_width"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:padding="@dimen/excersice_list_item_padding"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="@dimen/default_button_size"
+            android:layout_height="@dimen/default_button_size"
+            android:layout_margin="@dimen/exercise_list_margin"
+            android:gravity="center_vertical|left"
             app:layout_constraintStart_toEndOf="@+id/exercise_weight_edittext"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.195" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/exercise_add_weight_button"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="-77dp"
-            android:padding="@dimen/excersice_list_item_padding"
+            android:layout_width="@dimen/default_button_size"
+            android:layout_height="@dimen/default_button_size"
+            android:layout_margin="@dimen/exercise_list_margin"
             android:text="@string/defaultAddToExerciseAmount"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -77,8 +64,7 @@
             android:id="@+id/barbell_iv"
             android:layout_width="@dimen/barbell_image_width"
             android:layout_height="@dimen/barbell_image_height"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_margin="@dimen/exercise_list_margin"
             android:contentDescription="@string/barbell_image_desc"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

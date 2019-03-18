@@ -28,8 +28,7 @@
         android:layout_centerVertical="true"
         android:textStyle="bold"
         android:textSize="@dimen/exercise_list_name_text_size"
-        android:textAlignment="center"
-        android:padding="@dimen/excersice_list_item_padding"/>
+        android:textAlignment="center" />
 
 </RelativeLayout>
 </androidx.cardview.widget.CardView>

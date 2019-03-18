@@ -31,10 +31,6 @@ public class MainActivity extends AppCompatActivity
         flip the barbell image around -> load plates on the right
         Add number of reps -> show it as ex 5 RM
         add a date changed -> when you did this
-
-
-
-
      */
 
     ActionBarDrawerToggle toggle;

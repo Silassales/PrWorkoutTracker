@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/lists_sort_spinner_title_text"
-        android:padding="@dimen/exercise_sort_spinner_title_padding"
+        android:padding="@dimen/sort_spinner_title_padding"
         android:textSize="@dimen/sort_spinner_text_size"
         android:background="@color/colorPrimaryLight"
         android:textColor="@color/colorOnPrimaryLight"
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/category_sort_spinner_title_edittext"
         android:background="@color/colorPrimaryLight"
-        android:padding="@dimen/exercise_sort_spinner_title_padding"/>
+        android:padding="@dimen/sort_spinner_title_padding"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/category_list_view"

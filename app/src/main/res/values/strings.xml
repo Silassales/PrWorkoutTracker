@@ -6,7 +6,7 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-    <string name="nav_home_title">Exercises</string>
+    <string name="nav_home_title">All Exercises</string>
     <string name="nav_workouts_title">Workouts</string>
     <string name="nav_categories_title">Categories</string>
     <string name="nav_calendar_title">Calendar</string>
