@@ -16,7 +16,7 @@
     <dimen name="exercise_list_item_min_height">120dp</dimen>
     <dimen name="barbell_image_height">104dp</dimen>
     <dimen name="barbell_slot_margin">2dp</dimen>
-    <dimen name="barbell_first_slot_margin">18dp</dimen>
+    <dimen name="barbell_first_slot_margin">15dp</dimen>
     <dimen name="barbell_image_width">115dp</dimen>
     <dimen name="exercise_list_margin">8dp</dimen>
     <dimen name="exercise_list_padding">8dp</dimen>

@@ -139,11 +139,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
             // if the first slot is empty we need a larger margin, and to connect to the barbell not the plate in front
             if(firstSlotEmpty) {
                 int margin = Math.round(holder.itemView.getContext().getResources().getDimension(R.dimen.barbell_first_slot_margin));
-                constraintSet.connect(imageView.getId(), ConstraintSet.END, barbellImageView.getId(), ConstraintSet.END, margin);
+                constraintSet.connect(imageView.getId(), ConstraintSet.START, barbellImageView.getId(), ConstraintSet.START, margin);
                 firstSlotEmpty = false;
             } else {
                 int margin = Math.round(holder.itemView.getContext().getResources().getDimension(R.dimen.barbell_slot_margin));
-                constraintSet.connect(imageView.getId(), ConstraintSet.END, previousSlotId, ConstraintSet.START, margin);
+                constraintSet.connect(imageView.getId(), ConstraintSet.START, previousSlotId, ConstraintSet.END, margin);
             }
 
             // apply and pray to the lord that everything is connected properly

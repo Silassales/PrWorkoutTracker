@@ -1,4 +1,4 @@
-<vector android:height="115dp" android:viewportHeight="30.38461"
+<vector android:height="@dimen/barbell_image_height" android:viewportHeight="30.38461"
     android:viewportWidth="2.559652" android:width="10dp" xmlns:android="http://schemas.android.com/apk/res/android">
     <path android:fillAlpha="1" android:fillColor="@color/weight_2_5kg"
         android:fillType="nonZero"

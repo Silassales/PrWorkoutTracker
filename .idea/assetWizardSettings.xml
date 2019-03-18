@@ -34,11 +34,11 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="height" value="115" />
-                            <entry key="outputName" value="ic_1_25kg" />
+                            <entry key="height" value="104" />
+                            <entry key="outputName" value="ic_barbell" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="$PROJECT_DIR$/../Icons/1-25kg.svg" />
-                            <entry key="width" value="7" />
+                            <entry key="sourceFile" value="$PROJECT_DIR$/../Icons/barbell.svg" />
+                            <entry key="width" value="115" />
                           </map>
                         </option>
                       </PersistentState>
