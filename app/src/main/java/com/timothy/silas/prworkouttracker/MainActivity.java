@@ -24,11 +24,7 @@ public class MainActivity extends AppCompatActivity
 
     /*
         TODO alex's suggestions:
-
-        change exercises on the nav to 'all exercises'
-        make the exercise on the exercise list 75% in size
         click on the exercises -> show description, cues, and tips
-        flip the barbell image around -> load plates on the right
         Add number of reps -> show it as ex 5 RM
         add a date changed -> when you did this
      */

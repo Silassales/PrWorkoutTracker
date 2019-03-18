@@ -196,6 +196,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         public EditText weight;
         public TextView wtUnit;
         public Button addButton;
+        public ConstraintLayout layout;
 
         public ArrayList<Integer> slotIds = new ArrayList<>();
 
@@ -209,12 +210,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
             weight = view.findViewById(R.id.exercise_weight_edittext);
             wtUnit = view.findViewById(R.id.exercise_wt_unit_textview);
             addButton = view.findViewById(R.id.exercise_add_weight_button);
+            layout = view.findViewById(R.id.exercise_list_constraintLayout);
 
-            view.setOnClickListener(this);
-            name.setOnClickListener(this);
             weight.setOnClickListener(this);
-            wtUnit.setOnClickListener(this);
             addButton.setOnClickListener(this);
+            layout.setOnClickListener(this);
 
             weight.setOnEditorActionListener((v, actionId, event) -> {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
