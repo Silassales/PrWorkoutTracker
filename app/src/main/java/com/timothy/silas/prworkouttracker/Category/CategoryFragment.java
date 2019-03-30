@@ -137,7 +137,9 @@ public class CategoryFragment extends Fragment {
             Snackbar.make(getView(), getString(R.string.add_category_confirm_snackbar, name), Snackbar.LENGTH_SHORT).show();
         });
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
-        builder.show();
+        AlertDialog dialog = builder.show();
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorOnDarkTheme));
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorOnDarkTheme));
     }
 
     private AdapterView.OnItemSelectedListener getSortSpinnerListener(String[] sortOptions) {

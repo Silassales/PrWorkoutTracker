@@ -5,5 +5,5 @@
     android:layout_height="wrap_content"
     android:textSize="@dimen/sort_spinner_text_size"
     android:gravity="left"
-    android:textColor="@color/colorOnPrimaryLight"
+    android:textColor="@color/colorOnTertiary"
     />

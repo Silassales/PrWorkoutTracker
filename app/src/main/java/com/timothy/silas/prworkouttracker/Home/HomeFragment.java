@@ -1,6 +1,7 @@
 package com.timothy.silas.prworkouttracker.Home;
 
 import android.app.AlertDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -204,7 +205,11 @@ public class HomeFragment extends Fragment {
             Snackbar.make(getView(), getString(R.string.add_exercise_confirm_snackbar, name), Snackbar.LENGTH_SHORT).show();
         });
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
-        builder.show();
+        AlertDialog dialog = builder.show();
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorOnDarkTheme));
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorOnDarkTheme));
+
+
     }
 
     private AdapterView.OnItemSelectedListener getSortSpinnerListener(String[] sortOptions) {

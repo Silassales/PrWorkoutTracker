@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity
         click on the exercises -> show description, cues, and tips
         Add number of reps -> show it as ex 5 RM
         add a date changed -> when you did this
+        change the current page highlight so that text is easier to see
      */
 
     ActionBarDrawerToggle toggle;
