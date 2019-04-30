@@ -42,4 +42,8 @@
     <string name="args_null_during_exercise_creation">Args were null when trying to inflate exercise fragment</string>
     <string name="exercise_null_during_exercise_creation">exercise is null while trying to inflate exercise fragment</string>
     <string name="category_null_during_exercise_creation">list of categories null while trying to inflate exercise fragment</string>
+    <string name="exercise_search_button_text">Search</string>
+    <string name="exercise_frag_title">Exercises</string>
+    <string name="category_frag_title">Categories</string>
+    <string name="exercise_search_hint">Search your exercises...</string>
 </resources>

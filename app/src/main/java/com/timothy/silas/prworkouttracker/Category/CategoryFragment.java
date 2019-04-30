@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -21,6 +23,7 @@ import com.timothy.silas.prworkouttracker.R;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
@@ -37,6 +40,9 @@ public class CategoryFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        /* allow this fragment to customize the toolbar */
+        setHasOptionsMenu(true);
+
         final View view = inflater.inflate(R.layout.category_fragment, container, false);
 
         Spinner sortSpinner = view.findViewById(R.id.category_sort_spinner);
@@ -79,6 +85,17 @@ public class CategoryFragment extends Fragment {
         categoryViewModel =  ViewModelProviders.of(this).get(CategoryViewModel.class);
         categoryViewModel.getCategoryList().observe(CategoryFragment.this, categories -> categoryAdapter.addItems(categories));
         return view;
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
+        toolbar.setTitle(getString(R.string.category_frag_title));
+
+        inflater.inflate(R.menu.category, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+
     }
 
     private void displayCategory(int position) {
