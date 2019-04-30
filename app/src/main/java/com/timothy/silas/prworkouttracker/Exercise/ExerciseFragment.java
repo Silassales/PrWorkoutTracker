@@ -37,12 +37,12 @@ public class ExerciseFragment extends Fragment {
         View view = inflater.inflate(R.layout.exercise_page_fragment, container, false);
         Bundle args = getArguments();
         if(args == null) {
-            // TODO setup up something to display to the user incorrect loading
+            Log.e("ExerciseFragment", getString(R.string.args_null_during_exercise_creation));
             return view;
         }
         Exercise exercise = (Exercise) args.getSerializable(getString(R.string.EXERCISE_TAG));
         if(exercise == null) {
-            // TODO same as above
+            Log.e("ExerciseFragment", getString(R.string.exercise_null_during_exercise_creation));
             return view;
         }
         
@@ -55,7 +55,7 @@ public class ExerciseFragment extends Fragment {
         final Spinner categorySpinner = view.findViewById(R.id.exercise_page_category_spinner);
         List<Category> listOfCategories = getCategories();
         if(listOfCategories == null) {
-            // TODO same as above
+            Log.e("ExerciseFragment", getString(R.string.category_null_during_exercise_creation));
             return view;
         }
         ArrayList<String> listOfCategoryNames = new ArrayList<>();

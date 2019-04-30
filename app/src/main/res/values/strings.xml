@@ -39,4 +39,7 @@
     <string name="add_exercise_category_textview">Category:</string>
     <string name="add_exercise_category_no_category_selected">No Category</string>
     <string name="barbell_image_desc">empty barbell</string>
+    <string name="args_null_during_exercise_creation">Args were null when trying to inflate exercise fragment</string>
+    <string name="exercise_null_during_exercise_creation">exercise is null while trying to inflate exercise fragment</string>
+    <string name="category_null_during_exercise_creation">list of categories null while trying to inflate exercise fragment</string>
 </resources>

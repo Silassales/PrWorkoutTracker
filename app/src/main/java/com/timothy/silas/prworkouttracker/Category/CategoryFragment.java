@@ -83,7 +83,6 @@ public class CategoryFragment extends Fragment {
 
     private void displayCategory(int position) {
         Category categoryToSortby = categoryViewModel.getCategoryList().getValue().get(position);
-        // TODO
         Log.i("category", "Displaying category: " + categoryToSortby.getName());
         Log.i("category", "Number: " + categoryViewModel.getExercisesByCategory(categoryToSortby));
 
