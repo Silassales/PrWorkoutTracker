@@ -33,11 +33,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
 
     private final HomeClickListener listener;
     private List<Exercise> exerciseList;
+    private List<Exercise> removedByFilterExerciseList;
     public List<Exercise> exercisesToRemove;
     private Integer categoryToSortBy;
 
     public HomeAdapter(List<Exercise> exerciseList, HomeClickListener listener) {
         this.exerciseList = exerciseList;
+        this.removedByFilterExerciseList = new ArrayList<>();
         this.listener = listener;
         this.exercisesToRemove = new ArrayList<>();
         this.categoryToSortBy = R.integer.no_category_found_defualt_val;
@@ -155,7 +157,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         this.categoryToSortBy = categoryToSortBy;
     }
 
-    public void addItems(List<Exercise> exercises) {
+    void addItems(List<Exercise> exercises) {
         Log.i("Home Adapter", "Added " + (exercises.size() - this.exerciseList.size()) + " new exercises from the db");
         // see the comment in CategoryFragment#displayCategory for context
         if(this.categoryToSortBy != R.integer.no_category_found_defualt_val) {
@@ -167,6 +169,34 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
             }
         }
         this.exerciseList = exercises;
+        notifyDataSetChanged();
+    }
+
+    void filterItemsBySearchResult(String query) {
+        /*
+            restore the original list by adding the removed exercises in case our query is less precise
+            than the last query (backspace)
+
+            re-filter the list and save that filter in the the removed list
+
+            remove those exercises from the list and update the view
+         */
+        exerciseList.addAll(removedByFilterExerciseList);
+        removedByFilterExerciseList.clear();
+        Log.i("Searching.. ", "about to starting searching exercise list for " + query);
+        for(Exercise exercise: exerciseList) {
+            if(!exercise.getName().toLowerCase().contains(query.toLowerCase())) {
+                removedByFilterExerciseList.add(exercise);
+                Log.d("Searching... ", "Adding to filter: " + exercise.getName());
+            }
+        }
+        exerciseList.removeAll(removedByFilterExerciseList);
+        notifyDataSetChanged();
+    }
+
+    void restoreListAfterSearch() {
+        exerciseList.addAll(removedByFilterExerciseList);
+        removedByFilterExerciseList.clear();
         notifyDataSetChanged();
     }
 

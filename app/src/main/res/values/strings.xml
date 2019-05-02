@@ -45,5 +45,5 @@
     <string name="exercise_search_button_text">Search</string>
     <string name="exercise_frag_title">Exercises</string>
     <string name="category_frag_title">Categories</string>
-    <string name="exercise_search_hint">Search your exercises...</string>
+    <string name="exercise_search_hint">Search exercises</string>
 </resources>

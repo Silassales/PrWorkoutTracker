@@ -76,6 +76,9 @@ public class HomeFragment extends Fragment {
 
     }
 
+    /* TODO resort the list while filtering during search (this is mainly for when search is closed
+        or backspace, and the filtered options are just being added onto the end of the list)
+    */
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
@@ -86,17 +89,21 @@ public class HomeFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Log.i("submitted", query);
+                homeAdapter.filterItemsBySearchResult(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                Log.i("->", newText);
+                homeAdapter.filterItemsBySearchResult(newText);
                 return false;
             }
         });
 
+        searchView.setOnCloseListener(() -> {
+            homeAdapter.restoreListAfterSearch();
+            return false;
+        });
     }
 
     protected void setUpStandardView(View view) {
