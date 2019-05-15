@@ -298,4 +298,11 @@ public class HomeFragment extends Fragment {
         };
     }
 
+    public void populateExerciseListWithDefaultValues(boolean wipeOldValues) {
+        if(wipeOldValues) {
+            
+        }
+        Log.i("home", "running for the first time");
+    }
+
 }

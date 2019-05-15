@@ -1,5 +1,6 @@
 package com.timothy.silas.prworkouttracker;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -35,9 +36,13 @@ public class MainActivity extends AppCompatActivity
 
     DrawerLayout drawerLayout;
 
+    SharedPreferences prefs = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prefs = getSharedPreferences(getString(R.string.PREFS_FILE), MODE_PRIVATE);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -83,16 +88,13 @@ public class MainActivity extends AppCompatActivity
         switch (viewId) {
             case R.id.nav_home:
                 fragment = new HomeFragment();
+                if(checkForFirstRun()) {
+                    ((HomeFragment) fragment).populateExerciseListWithDefaultValues(false);
+                }
                 break;
-//            case R.id.nav_workouts:
-//                fragment = new WorkoutFragment();
-//                break;
             case R.id.nav_categories:
                 fragment = new CategoryFragment();
                 break;
-//            case R.id.nav_calendar:
-//                fragment = new CalendarFragment();
-//                break;
         }
 
         if (fragment != null) {
@@ -105,5 +107,15 @@ public class MainActivity extends AppCompatActivity
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
+    }
+
+    private boolean checkForFirstRun() {
+        if(prefs.getBoolean(getString(R.string.APP_FIRST_LAUNCH), true)) {
+            prefs.edit().putBoolean(getString(R.string.APP_FIRST_LAUNCH), false).apply();
+            return true;
+        } else {
+            return false;
+        }
+
     }
 }

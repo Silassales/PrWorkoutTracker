@@ -1,4 +1,6 @@
 <resources>
+    <string name="APP_FIRST_LAUNCH">APP_FIRST_LAUNCH</string>
+
     <string name="app_name">PrWorkoutTracker</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -46,4 +48,5 @@
     <string name="exercise_frag_title">Exercises</string>
     <string name="category_frag_title">Categories</string>
     <string name="exercise_search_hint">Search exercises</string>
+    <string name="PREFS_FILE">PREFS_FILE</string>
 </resources>
