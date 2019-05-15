@@ -1,0 +1,15 @@
+{
+  "exercises": [
+    {"name": "name", "weight": "0.0", "weightUnit": "KG", "categoryId": "none"},
+    {"name": "name2", "weight": "10.0", "weightUnit": "KG", "categoryId": "none"},
+    {"name": "name3", "weight": "20.0", "weightUnit": "LB", "categoryId": "none"},
+    {"name": "name4", "weight": "30.0", "weightUnit": "KG", "categoryId": "none"},
+    {"name": "name5", "weight": "40.0", "weightUnit": "KG", "categoryId": "none"},
+    {"name": "name6", "weight": "50.0", "weightUnit": "KG", "categoryId": "none"},
+    {"name": "name7", "weight": "0.0", "weightUnit": "KG", "categoryId": "none"},
+    {"name": "name8", "weight": "0.0", "weightUnit": "KG", "categoryId": "none"},
+    {"name": "name9", "weight": "0.0", "weightUnit": "KG", "categoryId": "none"},
+    {"name": "name10", "weight": "0.0", "weightUnit": "KG", "categoryId": "none"},
+    {"name": "name11", "weight": "0.0", "weightUnit": "KG", "categoryId": "none"}
+  ]
+}

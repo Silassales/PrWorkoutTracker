@@ -1,7 +1,9 @@
 package com.timothy.silas.prworkouttracker.Home;
 
 import android.app.AlertDialog;
-import android.graphics.Color;
+import android.content.SharedPreferences;
+
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +17,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -26,23 +27,27 @@ import com.timothy.silas.prworkouttracker.Exercise.ExerciseFragment;
 import com.timothy.silas.prworkouttracker.Home.Helper.HomeSimpleItemTouchHelperCallback;
 import com.timothy.silas.prworkouttracker.R;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
+import java.util.Scanner;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class HomeFragment extends Fragment {
 
@@ -53,6 +58,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private Spinner sortSpinner;
     private ItemTouchHelper itemTouchHelper;
+    private SharedPreferences prefs = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,7 +82,7 @@ public class HomeFragment extends Fragment {
 
     }
 
-    /* TODO resort the list while filtering during search (this is mainly for when search is closed
+    /* TODO re-sort the list while filtering during search (this is mainly for when search is closed
         or backspace, and the filtered options are just being added onto the end of the list)
     */
     @Override
@@ -169,6 +175,10 @@ public class HomeFragment extends Fragment {
 
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         homeViewModel.getExerciseList().observe(HomeFragment.this, exercises -> homeAdapter.addItems(exercises));
+
+        prefs = Objects.requireNonNull(this.getActivity()).getSharedPreferences(getString(R.string.PREFS_FILE), MODE_PRIVATE);
+
+        if(checkIfDefaultExercisesHaveBeenInited()) populateExerciseListWithDefaultValues(false);
     }
 
 
@@ -298,11 +308,61 @@ public class HomeFragment extends Fragment {
         };
     }
 
+    private boolean checkIfDefaultExercisesHaveBeenInited() {
+        if(prefs.getBoolean(getString(R.string.INITIALIZED_DEFAULT_EXERCISES), true)) {
+            prefs.edit().putBoolean(getString(R.string.INITIALIZED_DEFAULT_EXERCISES), false).apply();
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
     public void populateExerciseListWithDefaultValues(boolean wipeOldValues) {
         if(wipeOldValues) {
-            
+            homeViewModel.deleteAllExercises();
         }
-        Log.i("home", "running for the first time");
+
+        /* read in the file containing the defaults: */
+        String path = "android.resource//com.timothy.silas.prworkouttracker/res/raw/default_exercises";
+        String defaultExercisesFileContent = "";
+
+        InputStream ins = getResources().openRawResource(getResources().getIdentifier("default_exercises","raw", "com.timothy.silas.prworkouttracker"));
+
+        defaultExercisesFileContent = convertStreamToString(ins);
+        Log.i("home", defaultExercisesFileContent);
+
+
+        try {
+            JSONObject obj = new JSONObject(defaultExercisesFileContent);
+            JSONArray exerciseArray = obj.getJSONArray(getString(R.string.JSON_KEYS_exercise_array));
+            for(int i = 0; i < exerciseArray.length(); i++) {
+                JSONObject exercise = exerciseArray.getJSONObject(i);
+                String nameKey = getString(R.string.JSON_KEYS_exercise_name);
+                String weightKey = getString(R.string.JSON_KEYS_exercise_weight);
+                String weightUnitKey = getString(R.string.JSON_KEYS_exercise_key);
+                String categoryIdKey = getString(R.string.JSON_KEYS_exercise_category_id);
+
+                /* handle exercises without a category */
+                Integer categoryId = null;
+                if(!exercise.getString(categoryIdKey).equals(getString(R.string.JSON_VALUES_exercise_no_category))) {
+                    categoryId = exercise.getInt(categoryIdKey);
+                }
+
+                Log.i("homeFrag", "adding exercise " + exercise.get(nameKey) + " from default file");
+                homeViewModel.addItem(new Exercise(null, exercise.getString(nameKey), exercise.getDouble(weightKey), WtUnitConverter.toWtUnit(exercise.getString(weightUnitKey)), categoryId));
+            }
+
+        } catch (JSONException e) {
+            // TODO inform the user that the default exercises cannot be loaded
+            e.printStackTrace();
+            return;
+        }
+    }
+
+    static String convertStreamToString(InputStream is) {
+        Scanner s = new Scanner(is).useDelimiter("\\A");
+        return s.hasNext() ? s.next() : "";
     }
 
 }

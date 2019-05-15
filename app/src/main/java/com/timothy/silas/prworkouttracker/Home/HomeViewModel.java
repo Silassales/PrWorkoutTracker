@@ -47,6 +47,20 @@ public class HomeViewModel extends AndroidViewModel {
         });
     }
 
+    public void deleteAllExercises() {
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            appDatabase.exerciseDao().nukeTable();
+        });
+    }
+
+    public void addItem(Exercise exercise) {
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            appDatabase.exerciseDao().insert(exercise);
+        });
+    }
+
     public List<Category> getCategories() {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         try {
@@ -59,22 +73,5 @@ public class HomeViewModel extends AndroidViewModel {
         return null;
     }
 
-    public void addItem(Exercise exercise) {
-        new insertAsyncTask(appDatabase).execute(exercise);
-    }
-
-    private static class insertAsyncTask extends AsyncTask<Exercise, Void, Void> {
-        private AppDatabase db;
-
-        insertAsyncTask(AppDatabase appDatabase) {
-            db = appDatabase;
-        }
-
-        @Override
-        protected Void doInBackground(final Exercise... params) {
-            db.exerciseDao().insert(params[0]);
-            return null;
-        }
-    }
 
 }

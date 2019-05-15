@@ -1,5 +1,5 @@
 <resources>
-    <string name="APP_FIRST_LAUNCH">APP_FIRST_LAUNCH</string>
+    <string name="INITIALIZED_DEFAULT_EXERCISES">INITIALIZED_DEFAULT_EXERCISES</string>
 
     <string name="app_name">PrWorkoutTracker</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -49,4 +49,10 @@
     <string name="category_frag_title">Categories</string>
     <string name="exercise_search_hint">Search exercises</string>
     <string name="PREFS_FILE">PREFS_FILE</string>
+    <string name="JSON_KEYS_exercise_array">exercises</string>
+    <string name="JSON_KEYS_exercise_name">name</string>
+    <string name="JSON_KEYS_exercise_weight">weight</string>
+    <string name="JSON_KEYS_exercise_key">weightUnit</string>
+    <string name="JSON_KEYS_exercise_category_id">categoryId</string>
+    <string name="JSON_VALUES_exercise_no_category">none</string>
 </resources>
