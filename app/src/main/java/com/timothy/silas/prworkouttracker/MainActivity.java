@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_home);
 
-        displayView(R.id.nav_home);
+        displayView(R.id.nav_home, true);
     }
 
     @Override
@@ -72,11 +72,11 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        displayView(item.getItemId());
+        displayView(item.getItemId(), false);
         return true;
     }
 
-    public void displayView(int viewId) {
+    public void displayView(int viewId, boolean firstTime) {
 
         Fragment fragment = null;
 
@@ -97,7 +97,11 @@ public class MainActivity extends AppCompatActivity
 
         if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
+            if(firstTime) {
+                ft.replace(R.id.content_frame, fragment).commit();
+            } else {
+                ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
+            }
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
