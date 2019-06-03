@@ -50,9 +50,11 @@
     <string name="exercise_search_hint">Search exercises</string>
     <string name="PREFS_FILE">PREFS_FILE</string>
     <string name="JSON_KEYS_exercise_array">exercises</string>
+    <string name="JSON_KEYS_category_array">categories</string>
     <string name="JSON_KEYS_exercise_name">name</string>
     <string name="JSON_KEYS_exercise_weight">weight</string>
     <string name="JSON_KEYS_exercise_key">weightUnit</string>
-    <string name="JSON_KEYS_exercise_category_id">categoryId</string>
+    <string name="JSON_KEYS_exercise_category_name">categoryName</string>
     <string name="JSON_VALUES_exercise_no_category">none</string>
+    <string name="JSON_KEYS_category_name">name</string>
 </resources>

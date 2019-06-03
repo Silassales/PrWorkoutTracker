@@ -178,7 +178,10 @@ public class HomeFragment extends Fragment {
 
         prefs = Objects.requireNonNull(this.getActivity()).getSharedPreferences(getString(R.string.PREFS_FILE), MODE_PRIVATE);
 
-        if(checkIfDefaultExercisesHaveBeenInited()) populateExerciseListWithDefaultValues(false);
+        if(checkIfDefaultExercisesHaveBeenInited()) {
+            populateCategoryWithDefaultValues(false);
+            populateExerciseListWithDefaultValues(false);
+        }
     }
 
 
@@ -318,7 +321,7 @@ public class HomeFragment extends Fragment {
 
     }
 
-    public void populateExerciseListWithDefaultValues(boolean wipeOldValues) {
+    private void populateExerciseListWithDefaultValues(boolean wipeOldValues) {
         if(wipeOldValues) {
             homeViewModel.deleteAllExercises();
         }
@@ -330,7 +333,6 @@ public class HomeFragment extends Fragment {
         InputStream ins = getResources().openRawResource(getResources().getIdentifier("default_exercises","raw", "com.timothy.silas.prworkouttracker"));
 
         defaultExercisesFileContent = convertStreamToString(ins);
-        Log.i("home", defaultExercisesFileContent);
 
 
         try {
@@ -341,16 +343,51 @@ public class HomeFragment extends Fragment {
                 String nameKey = getString(R.string.JSON_KEYS_exercise_name);
                 String weightKey = getString(R.string.JSON_KEYS_exercise_weight);
                 String weightUnitKey = getString(R.string.JSON_KEYS_exercise_key);
-                String categoryIdKey = getString(R.string.JSON_KEYS_exercise_category_id);
+                String categoryNameKey = getString(R.string.JSON_KEYS_exercise_category_name);
 
-                /* handle exercises without a category */
+                /* handle exercises without a category and get the category id from the category name if it exists */
                 Integer categoryId = null;
-                if(!exercise.getString(categoryIdKey).equals(getString(R.string.JSON_VALUES_exercise_no_category))) {
-                    categoryId = exercise.getInt(categoryIdKey);
+                if(!exercise.getString(categoryNameKey).equals(getString(R.string.JSON_VALUES_exercise_no_category))) {
+                    String categoryName = exercise.getString(categoryNameKey);
+                    Category category = homeViewModel.getCategoryByName(categoryName);
+                    if(category != null) {
+                        categoryId = category.getId();
+                        Log.i("homeFrag", "found a category Id for exercise: " + exercise.getString(nameKey) + " | categoryId : " + categoryId + " categoryName: " + categoryName);
+                    }
                 }
 
                 Log.i("homeFrag", "adding exercise " + exercise.get(nameKey) + " from default file");
                 homeViewModel.addItem(new Exercise(null, exercise.getString(nameKey), exercise.getDouble(weightKey), WtUnitConverter.toWtUnit(exercise.getString(weightUnitKey)), categoryId));
+            }
+
+        } catch (JSONException e) {
+            // TODO inform the user that the default exercises cannot be loaded
+            e.printStackTrace();
+            return;
+        }
+    }
+
+    private void populateCategoryWithDefaultValues(boolean wipeOldValues) {
+        if(wipeOldValues) {
+            homeViewModel.deleteAllCategories();
+        }
+
+        /* read in the file containing the defaults: */
+        String defaultCategoriesFileContent = "";
+
+        InputStream ins = getResources().openRawResource(getResources().getIdentifier("default_categories","raw", "com.timothy.silas.prworkouttracker"));
+
+        defaultCategoriesFileContent = convertStreamToString(ins);
+
+        try {
+            JSONObject obj = new JSONObject(defaultCategoriesFileContent);
+            JSONArray categoryArray = obj.getJSONArray(getString(R.string.JSON_KEYS_category_array));
+            for(int i = 0; i < categoryArray.length(); i++) {
+                JSONObject category = categoryArray.getJSONObject(i);
+                String nameKey = getString(R.string.JSON_KEYS_category_name);
+
+                Log.i("homeFrag", "adding category " + category.get(nameKey) + " from default file");
+                homeViewModel.addCategory(new Category(null, category.getString(nameKey)));
             }
 
         } catch (JSONException e) {

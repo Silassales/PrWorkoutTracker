@@ -1,0 +1,12 @@
+{
+  "categories": [
+    {"name": "Quads" },
+    {"name": "Hamstring" },
+    {"name": "Calves" },
+    {"name": "Chest" },
+    {"name": "Back" },
+    {"name": "Shoulders" },
+    {"name": "Biceps" },
+    {"name": "Triceps" }
+  ]
+}

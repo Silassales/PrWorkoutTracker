@@ -54,11 +54,37 @@ public class HomeViewModel extends AndroidViewModel {
         });
     }
 
+    public void deleteAllCategories() {
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            appDatabase.categoryDao().nukeTable();
+        });
+    }
+
     public void addItem(Exercise exercise) {
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
             appDatabase.exerciseDao().insert(exercise);
         });
+    }
+
+    public void addCategory(Category category) {
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            appDatabase.categoryDao().insert(category);
+        });
+    }
+
+    public Category getCategoryByName(String categoryName) {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        try {
+            return executor.submit(() -> appDatabase.categoryDao().getByName(categoryName)).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public List<Category> getCategories() {
